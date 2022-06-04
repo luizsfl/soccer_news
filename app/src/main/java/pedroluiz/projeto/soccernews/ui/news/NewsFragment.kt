@@ -24,15 +24,15 @@ class NewsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val NewsViewModel =ViewModelProvider(this).get(NewsViewModel::class.java)
+        val newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+        newsViewModel.NewsViewModel()
 
         _binding = FragmentNewsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         binding.rcNews.layoutManager = LinearLayoutManager(context)
 
-
-        NewsViewModel.listNews.observe(viewLifecycleOwner) {
+        newsViewModel.listNews.observe(viewLifecycleOwner) {
             binding.rcNews.adapter = NewsAdapter(it)
         }
 

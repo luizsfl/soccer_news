@@ -1,15 +1,20 @@
 package pedroluiz.projeto.soccernews.ui.adapter;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import pedroluiz.projeto.soccernews.databinding.NewsItemBinding;
 import pedroluiz.projeto.soccernews.domain.News;
+import retrofit2.http.Url;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
 
@@ -34,7 +39,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         this.news.get(position);
         holder.binding.tvTitle.setText(this.news.get(position).getTitle());
-        holder.binding.tvDescicao.setText(this.news.get(position).getDescricao());
+        holder.binding.tvDescicao.setText(this.news.get(position).getDescription());
+
+        //Incluir imagem
+        Picasso.get().load(this.news.get(position).getImage()).fit().into(holder.binding.ivNoticia);
+
+        holder.binding.btOpenLink.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(this.news.get(position).getLink()));
+
+            holder.itemView.getContext().startActivity(intent);
+
+        });
 
     }
 
