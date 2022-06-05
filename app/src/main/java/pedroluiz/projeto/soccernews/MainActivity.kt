@@ -7,9 +7,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.room.Room
+import pedroluiz.projeto.soccernews.data.local.AppDataBase
 import pedroluiz.projeto.soccernews.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var db: AppDataBase
 
     private lateinit var binding: ActivityMainBinding
 
@@ -33,5 +37,23 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
+
+
+       this.setupDb()
+
     }
+
+
+    fun setupDb(){
+        db = Room.databaseBuilder(
+            this,
+            AppDataBase::class.java, "soccer-news"
+        )
+            .allowMainThreadQueries()
+            .build()
+    }
+
+    fun getDb (): AppDataBase
+    {return this.db}
+
 }

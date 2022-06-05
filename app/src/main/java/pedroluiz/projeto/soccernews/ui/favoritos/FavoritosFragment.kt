@@ -7,10 +7,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import pedroluiz.projeto.soccernews.MainActivity
 import pedroluiz.projeto.soccernews.databinding.FragmentFavoritosBinding
+import pedroluiz.projeto.soccernews.domain.News
+import pedroluiz.projeto.soccernews.ui.adapter.NewsAdapter
 
 class FavoritosFragment : Fragment() {
 
+    private lateinit var favoritoNews : List<News>
     private var _binding: FragmentFavoritosBinding? = null
 
     // This property is only valid between onCreateView and
@@ -28,15 +33,33 @@ class FavoritosFragment : Fragment() {
         _binding = FragmentFavoritosBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textFavoritos
-        FavoritosViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        this.loadFavoritoNews()
+
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun loadFavoritoNews(){
+        val activity = activity as MainActivity?
+
+        if (activity != null) {
+            favoritoNews = activity.getDb().newsDao().loadFavoriteNews(true)
+        }
+
+        binding.rcNews.layoutManager = LinearLayoutManager(context)
+        binding.rcNews.adapter = NewsAdapter(favoritoNews, NewsAdapter.NewsFavoriteListener{
+
+            val activity = activity as MainActivity?
+            if (activity != null) {
+                var db = activity.getDb()
+                db.newsDao().insert(it)
+                loadFavoritoNews()
+            }
+
+        })
     }
 }

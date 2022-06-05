@@ -52,6 +52,10 @@ dependencies {
     //picasso https://square.github.io/picasso/
     implementation 'com.squareup.picasso:picasso:2.8'
 
+    //Room data base
+    implementation("androidx.room:room-runtime:2.4.1")
+    annotationProcessor("androidx.room:room-compiler:2.4.1")
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

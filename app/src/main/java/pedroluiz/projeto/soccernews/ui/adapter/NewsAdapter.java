@@ -3,6 +3,7 @@ package pedroluiz.projeto.soccernews.ui.adapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import pedroluiz.projeto.soccernews.R;
 import pedroluiz.projeto.soccernews.databinding.NewsItemBinding;
 import pedroluiz.projeto.soccernews.domain.News;
 import retrofit2.http.Url;
@@ -22,9 +24,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
     public List<News> getNews() {
         return news;
     }
+    public NewsFavoriteListener favoriteListener;
 
-    public NewsAdapter(List<News> news) {
+    public NewsAdapter(List<News> news, NewsFavoriteListener favoriteListener) {
+
         this.news = news;
+        this.favoriteListener = favoriteListener;
     }
 
 
@@ -60,6 +65,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
             holder.itemView.getContext().startActivity(Intent.createChooser(intent,"Compartilhe"));
         });
 
+
+
+        //Favorite
+        holder.binding.ivFavorite.setOnClickListener(v->
+        {
+            this.news.get(position).setFavorito(!this.news.get(position).getFavorito());
+            this.favoriteListener.onClic(news.get(position));
+            notifyItemChanged(position);
+        });
+
+        if (this.news.get(position).getFavorito() == true) {
+            holder.binding.ivFavorite.setColorFilter(holder.itemView.getContext().getResources().getColor(R.color.red));
+        }else{
+            holder.binding.ivFavorite.setColorFilter(holder.itemView.getContext().getResources().getColor(R.color.black));
+        }
     }
 
     @Override
@@ -73,5 +93,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
             super(binding.getRoot());
             this.binding = binding;
         }
+    }
+
+    public interface NewsFavoriteListener{
+        void onClic(News news);
     }
 }

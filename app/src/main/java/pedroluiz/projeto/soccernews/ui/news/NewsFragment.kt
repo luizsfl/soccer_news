@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import pedroluiz.projeto.soccernews.MainActivity
+import pedroluiz.projeto.soccernews.data.local.AppDataBase
 import pedroluiz.projeto.soccernews.databinding.FragmentNewsBinding
 import pedroluiz.projeto.soccernews.ui.adapter.NewsAdapter
+
 
 class NewsFragment : Fragment() {
 
@@ -32,8 +34,25 @@ class NewsFragment : Fragment() {
 
         binding.rcNews.layoutManager = LinearLayoutManager(context)
 
+
         newsViewModel.listNews.observe(viewLifecycleOwner) {
-            binding.rcNews.adapter = NewsAdapter(it)
+            binding.rcNews.adapter = NewsAdapter(it, NewsAdapter.NewsFavoriteListener{
+                val activity = activity as MainActivity?
+                if (activity != null) {
+                   var db = activity.getDb()
+                    db.newsDao().insert(it)
+
+                }
+            })
+        }
+
+        newsViewModel.getState.observe(viewLifecycleOwner) {
+            when(it){
+                NewsViewModel.State.DOING -> print("todo incluis INICIAR wsiperefreshlayout LOADING")
+                NewsViewModel.State.DONE -> print("todo incluis FINALIZAR wsiperefreshlayout LOADING")
+                NewsViewModel.State.ERROR -> print("todo incluis FINALIZAR wsiperefreshlayout LOADING") //TODO MOSTRAR um erro generico
+            }
+
         }
 
         return root
