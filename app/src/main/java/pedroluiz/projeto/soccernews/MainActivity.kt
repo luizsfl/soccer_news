@@ -1,19 +1,16 @@
 package pedroluiz.projeto.soccernews
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.room.Room
-import pedroluiz.projeto.soccernews.data.local.AppDataBase
+import pedroluiz.projeto.soccernews.data.local.SoccerNewsDb
 import pedroluiz.projeto.soccernews.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var db: AppDataBase
 
     private lateinit var binding: ActivityMainBinding
 
@@ -39,21 +36,8 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setupWithNavController(navController)
 
 
-       this.setupDb()
-
     }
 
 
-    fun setupDb(){
-        db = Room.databaseBuilder(
-            this,
-            AppDataBase::class.java, "soccer-news"
-        )
-            .allowMainThreadQueries()
-            .build()
-    }
-
-    fun getDb (): AppDataBase
-    {return this.db}
 
 }

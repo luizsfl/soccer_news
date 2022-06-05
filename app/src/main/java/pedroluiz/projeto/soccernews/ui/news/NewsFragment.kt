@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import pedroluiz.projeto.soccernews.MainActivity
-import pedroluiz.projeto.soccernews.data.local.AppDataBase
 import pedroluiz.projeto.soccernews.databinding.FragmentNewsBinding
 import pedroluiz.projeto.soccernews.ui.adapter.NewsAdapter
 
@@ -37,12 +35,7 @@ class NewsFragment : Fragment() {
 
         newsViewModel.listNews.observe(viewLifecycleOwner) {
             binding.rcNews.adapter = NewsAdapter(it, NewsAdapter.NewsFavoriteListener{
-                val activity = activity as MainActivity?
-                if (activity != null) {
-                   var db = activity.getDb()
-                    db.newsDao().insert(it)
-
-                }
+               newsViewModel.saveNews(it)
             })
         }
 

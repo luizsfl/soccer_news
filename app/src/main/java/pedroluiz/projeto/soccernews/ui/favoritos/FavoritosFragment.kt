@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import pedroluiz.projeto.soccernews.MainActivity
@@ -27,39 +28,31 @@ class FavoritosFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val FavoritosViewModel =
+        val favoritosViewModel =
             ViewModelProvider(this).get(FavoritosViewModel::class.java)
 
         _binding = FragmentFavoritosBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        this.loadFavoritoNews()
+        loadFavoriteNews(favoritosViewModel)
 
         return root
+    }
+
+    private fun loadFavoriteNews(favoritosViewModel: FavoritosViewModel) {
+        favoritosViewModel.loadFavoritoNews().observe(viewLifecycleOwner, {
+            binding.rcNews.layoutManager = LinearLayoutManager(context)
+            binding.rcNews.adapter = NewsAdapter(it, NewsAdapter.NewsFavoriteListener {
+
+                favoritosViewModel.saveNews(it)
+                loadFavoriteNews(favoritosViewModel)
+
+            })
+        })
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    fun loadFavoritoNews(){
-        val activity = activity as MainActivity?
-
-        if (activity != null) {
-            favoritoNews = activity.getDb().newsDao().loadFavoriteNews(true)
-        }
-
-        binding.rcNews.layoutManager = LinearLayoutManager(context)
-        binding.rcNews.adapter = NewsAdapter(favoritoNews, NewsAdapter.NewsFavoriteListener{
-
-            val activity = activity as MainActivity?
-            if (activity != null) {
-                var db = activity.getDb()
-                db.newsDao().insert(it)
-                loadFavoritoNews()
-            }
-
-        })
     }
 }
