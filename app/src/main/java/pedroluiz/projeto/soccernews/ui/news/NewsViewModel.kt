@@ -4,6 +4,7 @@ import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import pedroluiz.projeto.soccernews.data.SoccerNewsRepository
 import pedroluiz.projeto.soccernews.domain.News
 import retrofit2.Call
@@ -19,6 +20,7 @@ class NewsViewModel : ViewModel() {
     private var news: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
     private var newsApi: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
 
+
     private var state: MutableLiveData<State> = MutableLiveData()
 
     fun NewsViewModel() {
@@ -32,7 +34,8 @@ class NewsViewModel : ViewModel() {
             override fun onResponse(call: Call<List<News>>, response: Response<List<News>>) {
 
                 if (response.isSuccessful) {
-                    news.value = response.body()
+                    newsApi.value = response.body()
+                    news.value = newsApi.value
                     validFavorito()
                     state.value = State.DONE
 
@@ -66,8 +69,22 @@ class NewsViewModel : ViewModel() {
             }
         }
         })
-
-
     }
+
+   fun filterList(text :String){
+
+       var newsSearch: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
+
+           if (newsApi.value != null) {
+               for (indice in newsApi.value!!?.indices) {
+                   if (newsApi.value!!.get(indice).description.uppercase().contains(text.uppercase()) || newsApi.value!!.get(indice).title.uppercase().contains(text.uppercase())) {
+                       newsSearch.value = newsSearch.value?.plus(newsApi.value!!.get(indice)) ?: listOf(newsApi.value!!.get(indice))
+                   }
+               }
+           }
+
+           news.value = newsSearch.value
+
+   }
 
 }

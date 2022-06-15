@@ -26,6 +26,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
     }
     public NewsFavoriteListener favoriteListener;
 
+    public void setFilterNews(List<News> filterNews){
+        this.news = filterNews;
+        notifyDataSetChanged();
+
+    }
+
     public NewsAdapter(List<News> news, NewsFavoriteListener favoriteListener) {
 
         this.news = news;
@@ -84,7 +90,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return this.news.size();
+        return (this.news != null) ? this.news.size() : 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
