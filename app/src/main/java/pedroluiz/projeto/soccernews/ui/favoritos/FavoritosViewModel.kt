@@ -11,10 +11,7 @@ class FavoritosViewModel : ViewModel() {
 
     private lateinit var news : LiveData<List<News>>
 
-    fun FavoritosViewModel(){
-
-
-    }
+    fun FavoritosViewModel(){}
 
     fun loadFavoritoNews():LiveData<List<News>> {
         return SoccerNewsRepository().instance.localDb.newsDao().loadFavoriteNews(true)

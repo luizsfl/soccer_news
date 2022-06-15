@@ -16,6 +16,8 @@ public interface NewsDao {
     @Query("SELECT * FROM News WHERE favorito = :favorite")
     LiveData<List<News>> loadFavoriteNews(Boolean favorite);
 
+    @Query("SELECT count(*) FROM News WHERE id = :id AND favorito = :favorite")
+    int validFavorito(Integer id,Boolean favorite);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(News news);
