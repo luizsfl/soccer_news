@@ -1,10 +1,9 @@
-package pedroluiz.projeto.soccernews.ui.news
+package pedroluiz.projeto.soccernews.presenter.news
 
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import pedroluiz.projeto.soccernews.data.SoccerNewsRepository
 import pedroluiz.projeto.soccernews.domain.News
 import retrofit2.Call

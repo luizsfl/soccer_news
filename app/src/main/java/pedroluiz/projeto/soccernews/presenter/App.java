@@ -1,4 +1,4 @@
-package pedroluiz.projeto.soccernews.ui;
+package pedroluiz.projeto.soccernews.presenter;
 
 import android.app.Application;
 

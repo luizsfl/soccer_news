@@ -1,9 +1,8 @@
-package pedroluiz.projeto.soccernews.ui.adapter;
+package pedroluiz.projeto.soccernews.presenter.adapter;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,6 @@ import java.util.List;
 import pedroluiz.projeto.soccernews.R;
 import pedroluiz.projeto.soccernews.databinding.NewsItemBinding;
 import pedroluiz.projeto.soccernews.domain.News;
-import retrofit2.http.Url;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
 

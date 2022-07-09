@@ -1,16 +1,15 @@
-package pedroluiz.projeto.soccernews
+package pedroluiz.projeto.soccernews.presenter
 
 import android.os.Bundle
-import android.view.Menu
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import pedroluiz.projeto.soccernews.R
 import pedroluiz.projeto.soccernews.databinding.ActivityMainBinding
-import pedroluiz.projeto.soccernews.ui.news.NewsViewModel
+import pedroluiz.projeto.soccernews.presenter.news.NewsViewModel
 
 class MainActivity : AppCompatActivity(){
     private lateinit var newsViewModel: NewsViewModel
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity(){
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main  )
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(

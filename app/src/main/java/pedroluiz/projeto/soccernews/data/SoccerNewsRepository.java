@@ -2,13 +2,9 @@ package pedroluiz.projeto.soccernews.data;
 
 import androidx.room.Room;
 
-import java.util.List;
-
 import pedroluiz.projeto.soccernews.data.local.SoccerNewsDb;
 import pedroluiz.projeto.soccernews.data.remote.SoccerNewsApi;
-import pedroluiz.projeto.soccernews.domain.News;
-import pedroluiz.projeto.soccernews.ui.App;
-import pedroluiz.projeto.soccernews.ui.adapter.NewsAdapter;
+import pedroluiz.projeto.soccernews.presenter.App;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
