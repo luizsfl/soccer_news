@@ -8,10 +8,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.room.Room
-import pedroluiz.projeto.soccernews.data.local.SoccerNewsDb
 import pedroluiz.projeto.soccernews.databinding.ActivityMainBinding
 import pedroluiz.projeto.soccernews.ui.news.NewsViewModel
 

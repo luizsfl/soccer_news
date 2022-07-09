@@ -54,8 +54,10 @@ dependencies {
 
     //Room data base
     implementation("androidx.room:room-runtime:2.4.1")
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     annotationProcessor("androidx.room:room-compiler:2.4.1")
+
+
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
 
     testImplementation 'junit:junit:4.13.2'

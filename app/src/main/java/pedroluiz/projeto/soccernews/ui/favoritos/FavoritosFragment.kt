@@ -16,11 +16,8 @@ import pedroluiz.projeto.soccernews.ui.adapter.NewsAdapter
 
 class FavoritosFragment : Fragment() {
 
-    private lateinit var favoritoNews : List<News>
     private var _binding: FragmentFavoritosBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -42,9 +39,9 @@ class FavoritosFragment : Fragment() {
     private fun loadFavoriteNews(favoritosViewModel: FavoritosViewModel) {
         favoritosViewModel.loadFavoritoNews().observe(viewLifecycleOwner, {
             binding.rcNews.layoutManager = LinearLayoutManager(context)
-            binding.rcNews.adapter = NewsAdapter(it, NewsAdapter.NewsFavoriteListener {
+            binding.rcNews.adapter = NewsAdapter(it, NewsAdapter.NewsFavoriteListener { news ->
 
-                favoritosViewModel.saveNews(it)
+                favoritosViewModel.saveNews(news)
                 loadFavoriteNews(favoritosViewModel)
 
             })
