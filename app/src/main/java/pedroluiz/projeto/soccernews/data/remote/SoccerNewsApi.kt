@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface SoccerNewsApi {
     @get:GET("news.json")
-    val news: Call<List<News?>?>?
+    val news: Call<List<News>>
 }

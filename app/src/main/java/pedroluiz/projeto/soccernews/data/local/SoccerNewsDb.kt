@@ -6,5 +6,5 @@ import pedroluiz.projeto.soccernews.domain.News
 
 @Database(entities = [News::class], version = 1)
 abstract class SoccerNewsDb : RoomDatabase() {
-    abstract fun newsDao(): NewsDao?
+    abstract fun newsDao(): NewsDao
 }
