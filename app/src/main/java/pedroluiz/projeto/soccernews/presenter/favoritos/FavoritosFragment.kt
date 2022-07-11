@@ -34,10 +34,12 @@ class FavoritosFragment : Fragment() {
 
     private fun loadFavoriteNews(favoritosViewModel: FavoritosViewModel) {
         favoritosViewModel.loadFavoritoNews().observe(viewLifecycleOwner, {
+
             binding.rcNews.layoutManager = LinearLayoutManager(context)
             binding.rcNews.adapter = NewsAdapter(it, NewsAdapter.NewsFavoriteListener { news ->
 
                 favoritosViewModel.saveNews(news)
+
                 loadFavoriteNews(favoritosViewModel)
 
             })

@@ -4,6 +4,9 @@ import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import pedroluiz.projeto.soccernews.data.SoccerNewsRepository
 import pedroluiz.projeto.soccernews.domain.News
 import retrofit2.Call
@@ -12,15 +15,14 @@ import retrofit2.Response
 
 
 class NewsViewModel : ViewModel() {
-    enum class State {
-        DOING, DONE, ERROR
-    }
 
     private var news: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
     private var newsApi: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
-
-
     private var state: MutableLiveData<State> = MutableLiveData()
+
+    enum class State {
+        DOING, DONE, ERROR
+    }
 
     fun NewsViewModel() {
         this.findNews()
@@ -50,24 +52,24 @@ class NewsViewModel : ViewModel() {
 
         })
     }
-    
+
     val listNews: LiveData<List<News>> = this.news
     val getState: LiveData<State> = this.state
 
     fun saveNews(news: News) {
-        AsyncTask.execute(Runnable {
+        CoroutineScope(Dispatchers.IO).launch {
             SoccerNewsRepository().instance.localDb.newsDao().insert(news)
-        })
+        }
     }
 
     fun validFavorito(){
-        AsyncTask.execute(Runnable {
+        CoroutineScope(Dispatchers.IO).launch {
          if (news.value != null) {
             for (i in news.value!!?.indices) {
                 news.value?.get(i)?.favorito = if (SoccerNewsRepository().instance.localDb.newsDao().validFavorito(news.value?.get(i)?.id,true   )>0) true else false
             }
         }
-        })
+        }
     }
 
    fun filterList(text :String){

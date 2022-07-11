@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_news" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_favorito"
         android:name="pedroluiz.projeto.soccernews.presenter.favoritos.FavoritosFragment"
         android:label="@string/title_favoritos"
         tools:layout="@layout/fragment_favoritos" />

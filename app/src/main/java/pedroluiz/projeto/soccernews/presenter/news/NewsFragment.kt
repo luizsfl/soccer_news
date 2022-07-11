@@ -17,10 +17,6 @@ class NewsFragment : Fragment() {
 
     private lateinit var newsViewModel: NewsViewModel
     private var _binding: FragmentNewsBinding? = null
-
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -47,6 +43,7 @@ class NewsFragment : Fragment() {
 
         binding.searchNews.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
+
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
             }
@@ -80,16 +77,11 @@ class NewsFragment : Fragment() {
                 binding.rcNews.adapter = NewsAdapter(it, NewsAdapter.NewsFavoriteListener {
                     newsViewModel.saveNews(it)
                 })
-
         }
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-
-
 }

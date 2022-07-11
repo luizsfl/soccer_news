@@ -24,25 +24,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
     }
     public NewsFavoriteListener favoriteListener;
 
-    public void setFilterNews(List<News> filterNews){
-        this.news = filterNews;
-        notifyDataSetChanged();
-
-    }
-
     public NewsAdapter(List<News> news, NewsFavoriteListener favoriteListener) {
-
         this.news = news;
         this.favoriteListener = favoriteListener;
     }
-
-
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         NewsItemBinding binding = NewsItemBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
-        return new ViewHolder(binding);    }
+        return new ViewHolder(binding);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -68,8 +60,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
             intent.putExtra(Intent.EXTRA_TEXT,this.news.get(position).getLink());
             holder.itemView.getContext().startActivity(Intent.createChooser(intent,"Compartilhe"));
         });
-
-
 
         //Favorite
         holder.binding.ivFavorite.setOnClickListener(v->
