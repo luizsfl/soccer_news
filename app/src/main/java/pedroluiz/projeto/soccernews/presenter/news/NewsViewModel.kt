@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pedroluiz.projeto.soccernews.data.SoccerNewsRepository
 import pedroluiz.projeto.soccernews.domain.model.News
+import pedroluiz.projeto.soccernews.domain.useCase.FilterNewsUseCase
 import pedroluiz.projeto.soccernews.domain.useCase.SaveNewsUseCase
 import pedroluiz.projeto.soccernews.domain.useCase.ValidFavoritoUseCase
 import retrofit2.Call
@@ -18,12 +19,16 @@ import retrofit2.Response
 class NewsViewModel(
     private val soccerNewsRepository : SoccerNewsRepository,
     private val saveNewsUseCase : SaveNewsUseCase,
-    private val validFavoritoUseCase: ValidFavoritoUseCase
+    private val validFavoritoUseCase: ValidFavoritoUseCase,
+    private val filterNewsUseCase: FilterNewsUseCase
 ): ViewModel() {
 
     private var news: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
     private var newsApi: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
     private var state: MutableLiveData<State> = MutableLiveData()
+
+    val listNews: LiveData<List<News>> = this.news
+    val getState: LiveData<State> = this.state
 
     enum class State {
         DOING, DONE, ERROR
@@ -54,11 +59,7 @@ class NewsViewModel(
         })
     }
 
-    val listNews: LiveData<List<News>> = this.news
-    val getState: LiveData<State> = this.state
-
-
-      fun saveNews(news: News) {
+    fun saveNews(news: News) {
           CoroutineScope(Dispatchers.IO).launch {
               saveNewsUseCase(news)
           }
@@ -67,32 +68,11 @@ class NewsViewModel(
     fun validFavorito(){
         CoroutineScope(Dispatchers.IO).launch {
             news = validFavoritoUseCase(news)
-            /*
-         if (news.value != null) {
-            for (i in news.value!!?.indices) {
-                news.value?.get(i)?.favorito = if (soccerNewsRepository.localDb.newsDao()
-                        .validFavorito(news.value?.get(i)?.id,true   )>0) true else false
-            }
-        }
-            */
         }
     }
 
-   fun filterList(text :String){
-
-       var newsSearch: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
-
-           if (newsApi.value != null) {
-               for (indice in newsApi.value!!?.indices) {
-                   if (newsApi.value!!.get(indice).description.uppercase().contains(text.uppercase())
-                       || newsApi.value!!.get(indice).title.uppercase().contains(text.uppercase())) {
-                       newsSearch.value = newsSearch.value?.plus(newsApi.value!!.get(indice)) ?: listOf(newsApi.value!!.get(indice))
-                   }
-               }
-           }
-
-           news.value = newsSearch.value
-
+    fun filterList(text :String){
+           news.value =   filterNewsUseCase(newsApi,text).value
    }
 
 }
