@@ -8,13 +8,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pedroluiz.projeto.soccernews.data.SoccerNewsRepository
 import pedroluiz.projeto.soccernews.domain.model.News
+import pedroluiz.projeto.soccernews.domain.useCase.SaveNewsUseCase
+import pedroluiz.projeto.soccernews.domain.useCase.ValidFavoritoUseCase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 class NewsViewModel(
-    private val soccerNewsRepository : SoccerNewsRepository
+    private val soccerNewsRepository : SoccerNewsRepository,
+    private val saveNewsUseCase : SaveNewsUseCase,
+    private val validFavoritoUseCase: ValidFavoritoUseCase
 ): ViewModel() {
 
     private var news: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
@@ -53,20 +57,24 @@ class NewsViewModel(
     val listNews: LiveData<List<News>> = this.news
     val getState: LiveData<State> = this.state
 
-    fun saveNews(news: News) {
-        CoroutineScope(Dispatchers.IO).launch {
-            soccerNewsRepository.localDb.newsDao().insert(news)
-        }
+
+      fun saveNews(news: News) {
+          CoroutineScope(Dispatchers.IO).launch {
+              saveNewsUseCase(news)
+          }
     }
 
     fun validFavorito(){
         CoroutineScope(Dispatchers.IO).launch {
+            news = validFavoritoUseCase(news)
+            /*
          if (news.value != null) {
             for (i in news.value!!?.indices) {
                 news.value?.get(i)?.favorito = if (soccerNewsRepository.localDb.newsDao()
                         .validFavorito(news.value?.get(i)?.id,true   )>0) true else false
             }
         }
+            */
         }
     }
 

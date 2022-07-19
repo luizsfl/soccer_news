@@ -35,33 +35,18 @@ class NewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observNews()
+        observNewsInsert()
 
         observeStates()
 
         newsViewModel.findNews()
 
-        binding.srfNews.setOnRefreshListener {
-            newsViewModel.findNews()
-            binding.searchNews.setQuery("",false)
-        }
+        atualizaRefreshNews()
 
-        binding.searchNews.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                newsViewModel.filterList(newText)
-                return false
-            }
-        })
-
+        searcViewFilter()
     }
 
-    private fun observNews() {
+    private fun observNewsInsert() {
         newsViewModel.listNews.observe(viewLifecycleOwner) { listaNews ->
             binding.rcNews.adapter = NewsAdapter(listaNews) {
                 newsViewModel.saveNews(it)
@@ -82,5 +67,27 @@ class NewsFragment : Fragment() {
             }
 
         }
+    }
+
+    private fun atualizaRefreshNews(){
+        binding.srfNews.setOnRefreshListener {
+            newsViewModel.findNews()
+            binding.searchNews.setQuery("",false)
+        }
+    }
+
+    private fun searcViewFilter(){
+        binding.searchNews.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                newsViewModel.filterList(newText)
+                return false
+            }
+        })
     }
 }
