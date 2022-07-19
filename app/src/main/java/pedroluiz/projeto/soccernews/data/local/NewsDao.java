@@ -8,7 +8,7 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import pedroluiz.projeto.soccernews.domain.News;
+import pedroluiz.projeto.soccernews.domain.model.News;
 
 @Dao
 public interface NewsDao {

@@ -1,13 +1,12 @@
 package pedroluiz.projeto.soccernews.presenter.favoritos
 
-import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pedroluiz.projeto.soccernews.data.SoccerNewsRepository
-import pedroluiz.projeto.soccernews.domain.News
+import pedroluiz.projeto.soccernews.domain.model.News
 
 class FavoritosViewModel(
     private val soccerNewsRepository: SoccerNewsRepository
@@ -19,7 +18,7 @@ class FavoritosViewModel(
         return soccerNewsRepository.localDb.newsDao().loadFavoriteNews(true)
     }
 
-    fun saveNews(news:News){
+    fun saveNews(news: News){
         CoroutineScope(Dispatchers.IO).launch {
             soccerNewsRepository.localDb.newsDao().insert(news)
         }
