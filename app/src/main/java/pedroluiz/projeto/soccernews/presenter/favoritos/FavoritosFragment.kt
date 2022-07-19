@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pedroluiz.projeto.soccernews.databinding.FragmentFavoritosBinding
 import pedroluiz.projeto.soccernews.presenter.adapter.NewsAdapter
-import pedroluiz.projeto.soccernews.presenter.news.NewsViewModel
 
 class FavoritosFragment : Fragment() {
 
@@ -36,14 +34,12 @@ class FavoritosFragment : Fragment() {
     }
 
     private fun loadFavoriteNews() {
-        favoritosViewModel.loadFavoritoNews().observe(viewLifecycleOwner, {
-
+        favoritosViewModel.loadFavoritoNews().observe(viewLifecycleOwner) {
             binding.rcNews.layoutManager = LinearLayoutManager(context)
-            binding.rcNews.adapter = NewsAdapter(it, NewsAdapter.NewsFavoriteListener { news ->
+            binding.rcNews.adapter = NewsAdapter(it){ news ->
                 favoritosViewModel.saveNews(news)
                 loadFavoriteNews()
-
-            })
-        })
+            }
+        }
     }
 }

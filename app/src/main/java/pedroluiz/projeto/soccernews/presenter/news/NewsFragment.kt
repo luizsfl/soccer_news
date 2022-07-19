@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -17,8 +16,7 @@ import pedroluiz.projeto.soccernews.presenter.adapter.NewsAdapter
 class NewsFragment : Fragment() {
 
     private val newsViewModel: NewsViewModel by viewModel()
-    private var _binding: FragmentNewsBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentNewsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,16 +24,22 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        newsViewModel.findNews()
-
-        _binding = FragmentNewsBinding.inflate(inflater, container, false)
+        binding = FragmentNewsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         binding.rcNews.layoutManager = LinearLayoutManager(context)
 
+        return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         observNews()
 
         observeStates()
+
+        newsViewModel.findNews()
 
         binding.srfNews.setOnRefreshListener {
             newsViewModel.findNews()
@@ -55,7 +59,14 @@ class NewsFragment : Fragment() {
             }
         })
 
-        return root
+    }
+
+    private fun observNews() {
+        newsViewModel.listNews.observe(viewLifecycleOwner) { listaNews ->
+            binding.rcNews.adapter = NewsAdapter(listaNews) {
+                newsViewModel.saveNews(it)
+            }
+        }
     }
 
     private fun observeStates() {
@@ -71,18 +82,5 @@ class NewsFragment : Fragment() {
             }
 
         }
-    }
-
-    private fun observNews() {
-        newsViewModel.listNews.observe(viewLifecycleOwner) {
-                binding.rcNews.adapter = NewsAdapter(it, NewsAdapter.NewsFavoriteListener {
-                    newsViewModel.saveNews(it)
-                })
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
