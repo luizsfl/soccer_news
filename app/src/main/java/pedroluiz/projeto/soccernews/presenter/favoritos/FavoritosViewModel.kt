@@ -9,17 +9,19 @@ import kotlinx.coroutines.launch
 import pedroluiz.projeto.soccernews.data.SoccerNewsRepository
 import pedroluiz.projeto.soccernews.domain.News
 
-class FavoritosViewModel : ViewModel() {
+class FavoritosViewModel(
+    private val soccerNewsRepository: SoccerNewsRepository
+) : ViewModel() {
 
     private lateinit var news : LiveData<List<News>>
 
     fun loadFavoritoNews():LiveData<List<News>> {
-        return SoccerNewsRepository().instance.localDb.newsDao().loadFavoriteNews(true)
+        return soccerNewsRepository.localDb.newsDao().loadFavoriteNews(true)
     }
 
     fun saveNews(news:News){
         CoroutineScope(Dispatchers.IO).launch {
-            SoccerNewsRepository().instance.localDb.newsDao().insert(news)
+            soccerNewsRepository.localDb.newsDao().insert(news)
         }
     }
 }

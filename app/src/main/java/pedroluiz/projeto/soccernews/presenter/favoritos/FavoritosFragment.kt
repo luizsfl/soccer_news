@@ -7,47 +7,43 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import pedroluiz.projeto.soccernews.databinding.FragmentFavoritosBinding
 import pedroluiz.projeto.soccernews.presenter.adapter.NewsAdapter
+import pedroluiz.projeto.soccernews.presenter.news.NewsViewModel
 
 class FavoritosFragment : Fragment() {
 
-    private var _binding: FragmentFavoritosBinding? = null
-
-    private val binding get() = _binding!!
+    private lateinit var _binding: FragmentFavoritosBinding
+    private val favoritosViewModel: FavoritosViewModel by viewModel()
+    private val binding get() = _binding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val favoritosViewModel =
-            ViewModelProvider(this).get(FavoritosViewModel::class.java)
 
         _binding = FragmentFavoritosBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        loadFavoriteNews(favoritosViewModel)
-
         return root
     }
 
-    private fun loadFavoriteNews(favoritosViewModel: FavoritosViewModel) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loadFavoriteNews()
+    }
+
+    private fun loadFavoriteNews() {
         favoritosViewModel.loadFavoritoNews().observe(viewLifecycleOwner, {
 
             binding.rcNews.layoutManager = LinearLayoutManager(context)
             binding.rcNews.adapter = NewsAdapter(it, NewsAdapter.NewsFavoriteListener { news ->
-
                 favoritosViewModel.saveNews(news)
-
-                loadFavoriteNews(favoritosViewModel)
+                loadFavoriteNews()
 
             })
         })
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

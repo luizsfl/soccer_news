@@ -9,13 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import pedroluiz.projeto.soccernews.databinding.FragmentNewsBinding
 import pedroluiz.projeto.soccernews.presenter.adapter.NewsAdapter
 
 
 class NewsFragment : Fragment() {
 
-    private lateinit var newsViewModel: NewsViewModel
+    private val newsViewModel: NewsViewModel by viewModel()
     private var _binding: FragmentNewsBinding? = null
     private val binding get() = _binding!!
 
@@ -24,8 +25,8 @@ class NewsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
-        newsViewModel.NewsViewModel()
+
+        newsViewModel.findNews()
 
         _binding = FragmentNewsBinding.inflate(inflater, container, false)
         val root: View = binding.root

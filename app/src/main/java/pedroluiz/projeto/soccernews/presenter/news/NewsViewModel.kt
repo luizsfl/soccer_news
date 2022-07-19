@@ -1,6 +1,5 @@
 package pedroluiz.projeto.soccernews.presenter.news
 
-import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,7 +13,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class NewsViewModel : ViewModel() {
+class NewsViewModel(
+    private val soccerNewsRepository : SoccerNewsRepository
+): ViewModel() {
 
     private var news: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
     private var newsApi: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
@@ -24,13 +25,9 @@ class NewsViewModel : ViewModel() {
         DOING, DONE, ERROR
     }
 
-    fun NewsViewModel() {
-        this.findNews()
-    }
-
     fun findNews() {
         state.value = State.DOING
-        SoccerNewsRepository().instance.remoteApi.news.enqueue(object : Callback<List<News>> {
+        soccerNewsRepository.remoteApi.news.enqueue(object : Callback<List<News>> {
 
             override fun onResponse(call: Call<List<News>>, response: Response<List<News>>) {
 
@@ -58,7 +55,7 @@ class NewsViewModel : ViewModel() {
 
     fun saveNews(news: News) {
         CoroutineScope(Dispatchers.IO).launch {
-            SoccerNewsRepository().instance.localDb.newsDao().insert(news)
+            soccerNewsRepository.localDb.newsDao().insert(news)
         }
     }
 
@@ -66,7 +63,8 @@ class NewsViewModel : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
          if (news.value != null) {
             for (i in news.value!!?.indices) {
-                news.value?.get(i)?.favorito = if (SoccerNewsRepository().instance.localDb.newsDao().validFavorito(news.value?.get(i)?.id,true   )>0) true else false
+                news.value?.get(i)?.favorito = if (soccerNewsRepository.localDb.newsDao()
+                        .validFavorito(news.value?.get(i)?.id,true   )>0) true else false
             }
         }
         }
@@ -78,7 +76,8 @@ class NewsViewModel : ViewModel() {
 
            if (newsApi.value != null) {
                for (indice in newsApi.value!!?.indices) {
-                   if (newsApi.value!!.get(indice).description.uppercase().contains(text.uppercase()) || newsApi.value!!.get(indice).title.uppercase().contains(text.uppercase())) {
+                   if (newsApi.value!!.get(indice).description.uppercase().contains(text.uppercase())
+                       || newsApi.value!!.get(indice).title.uppercase().contains(text.uppercase())) {
                        newsSearch.value = newsSearch.value?.plus(newsApi.value!!.get(indice)) ?: listOf(newsApi.value!!.get(indice))
                    }
                }
