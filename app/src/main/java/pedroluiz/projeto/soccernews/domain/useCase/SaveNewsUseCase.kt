@@ -7,6 +7,6 @@ class SaveNewsUseCase(
     private val soccerNewsRepository: SoccerNewsRepository,
 ) {
     operator fun invoke(news: News) {
-        soccerNewsRepository.localDb.newsDao().insert(news)
+        soccerNewsRepository.getLocalDb().newsDao().insert(news)
     }
 }

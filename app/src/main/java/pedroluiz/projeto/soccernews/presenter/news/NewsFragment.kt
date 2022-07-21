@@ -39,11 +39,16 @@ class NewsFragment : Fragment() {
 
         observeStates()
 
-        newsViewModel.findNews()
-
         atualizaRefreshNews()
 
         searcViewFilter()
+
+        getAllNews()
+    }
+
+    private fun getAllNews(){
+        newsViewModel.findNews()
+
     }
 
     private fun observNewsInsert() {
@@ -71,7 +76,7 @@ class NewsFragment : Fragment() {
 
     private fun atualizaRefreshNews(){
         binding.srfNews.setOnRefreshListener {
-            newsViewModel.findNews()
+            getAllNews()
             binding.searchNews.setQuery("",false)
         }
     }
@@ -86,8 +91,10 @@ class NewsFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 newsViewModel.filterList(newText)
+
                 return false
             }
         })
     }
+
 }

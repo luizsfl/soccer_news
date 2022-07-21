@@ -11,12 +11,12 @@ class FilterNewsUseCase {
             for (indice in newsApi.value!!?.indices) {
                 if (newsApi.value!!.get(indice).description.uppercase().contains(text.uppercase())
                     || newsApi.value!!.get(indice).title.uppercase().contains(text.uppercase())) {
-                    newsSearch.value = newsSearch.value?.plus(newsApi.value!!.get(indice)) ?: listOf(newsApi.value!!.get(indice))
+
+                    newsSearch.value = newsSearch.value?.plus(newsApi.value!!.get(indice)) ?:
+                    listOf(newsApi.value!!.get(indice))
                 }
             }
         }
-
         return newsSearch
-
     }
 }

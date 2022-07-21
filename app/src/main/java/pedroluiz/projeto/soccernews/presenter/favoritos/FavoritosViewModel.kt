@@ -7,20 +7,27 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pedroluiz.projeto.soccernews.data.SoccerNewsRepository
 import pedroluiz.projeto.soccernews.domain.model.News
+import pedroluiz.projeto.soccernews.domain.useCase.GetAllNewsFavoritoUseCase
+import pedroluiz.projeto.soccernews.domain.useCase.SaveNewsUseCase
 
 class FavoritosViewModel(
-    private val soccerNewsRepository: SoccerNewsRepository
-) : ViewModel() {
+    private val soccerNewsRepository: SoccerNewsRepository,
+    private val getAllNewsFavoritoUseCase : GetAllNewsFavoritoUseCase,
+    private val saveNewsUseCase: SaveNewsUseCase
+
+    ) : ViewModel() {
 
     private lateinit var news : LiveData<List<News>>
 
     fun loadFavoritoNews():LiveData<List<News>> {
-        return soccerNewsRepository.localDb.newsDao().loadFavoriteNews(true)
+        //return soccerNewsRepository.getLocalDb().newsDao().loadFavoriteNews(true)
+        return getAllNewsFavoritoUseCase()
     }
 
     fun saveNews(news: News){
         CoroutineScope(Dispatchers.IO).launch {
-            soccerNewsRepository.localDb.newsDao().insert(news)
+            soccerNewsRepository.getLocalDb().newsDao().insert(news)
+            saveNewsUseCase(news)
         }
     }
 }
