@@ -1,16 +1,20 @@
 package pedroluiz.projeto.soccernews.presenter.news
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pedroluiz.projeto.soccernews.databinding.FragmentNewsBinding
 import pedroluiz.projeto.soccernews.presenter.adapter.NewsAdapter
+import pedroluiz.projeto.soccernews.utils.Resource
 
 
 class NewsFragment : Fragment() {
@@ -47,16 +51,45 @@ class NewsFragment : Fragment() {
     }
 
     private fun getAllNews(){
-        newsViewModel.findNews()
+       // newsViewModel.findNews()
 
     }
 
     private fun observNewsInsert() {
+
+
+        newsViewModel.listNews.observe(viewLifecycleOwner, Observer {
+
+            Log.e("test44", it.data.toString())
+
+
+            when (it.status) {
+                Resource.Status.SUCCESS -> {
+                    //  binding.progressBar.visibility = View.GONE
+                    if (!it.data.isNullOrEmpty()){
+                        binding.rcNews.adapter = NewsAdapter(it.data) {
+                            newsViewModel.saveNews(it)
+                        }
+                    }
+                }
+                Resource.Status.ERROR ->
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+
+                Resource.Status.LOADING ->
+                    Log.e("test44", "4444")
+
+                //binding.progressBar.visibility = View.VISIBLE
+            }
+        })
+
+        /*
         newsViewModel.listNews.observe(viewLifecycleOwner) { listaNews ->
             binding.rcNews.adapter = NewsAdapter(listaNews) {
                 newsViewModel.saveNews(it)
             }
         }
+         */
+
     }
 
     private fun observeStates() {

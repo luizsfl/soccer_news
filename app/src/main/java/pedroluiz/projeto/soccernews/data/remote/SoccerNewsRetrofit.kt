@@ -6,7 +6,7 @@ import pedroluiz.projeto.soccernews.data.local.SoccerNewsDb
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SoccerNewsRetrofit(private val context: Context?) {
+open class SoccerNewsRetrofit(private val context: Context?) {
 
     //region Constantes
     private val REMOTE_API_URL = "https://luizsfl.github.io/soccer-news-api/"

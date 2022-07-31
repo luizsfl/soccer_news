@@ -1,22 +1,26 @@
 package pedroluiz.projeto.soccernews.data
 
-import android.content.Context
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import pedroluiz.projeto.soccernews.data.local.SoccerNewsDb
-import pedroluiz.projeto.soccernews.data.remote.SoccerNewsApi
-import pedroluiz.projeto.soccernews.data.remote.SoccerNewsRetrofit
-import pedroluiz.projeto.soccernews.domain.model.News
-import pedroluiz.projeto.soccernews.presenter.news.NewsViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class SoccerNewsRepository(private val soccerNewsRetrofit: SoccerNewsRetrofit){
+import pedroluiz.projeto.soccernews.data.dataSource.SoccerNewsDataSource
+import pedroluiz.projeto.soccernews.data.remote.SoccerNewsRetrofit
+import pedroluiz.projeto.soccernews.utils.performGetOperation
+
+
+class SoccerNewsRepository(
+     private val soccerNewsRetrofit: SoccerNewsRetrofit,
+     private val newsRemoteDataSource: SoccerNewsDataSource
+){
 
      fun getListNews() = soccerNewsRetrofit.getInstanceRetrofit()
 
-     fun getLocalDb() = soccerNewsRetrofit.getLocalDb()
+     fun getLocalDb() = soccerNewsRetrofit.getLocalDb().newsDao()
+
+
+
+     fun getAllNews() = performGetOperation(
+          databaseQuery = { soccerNewsRetrofit.getLocalDb().newsDao().loadFavoriteNews(true) },
+          networkCall = { newsRemoteDataSource.getData() },
+          saveCallResult = { soccerNewsRetrofit.getLocalDb().newsDao().insert(it.get(0)) })
 
 }
+

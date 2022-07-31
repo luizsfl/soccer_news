@@ -28,7 +28,8 @@ class NewsViewModel(
     private var newsApi: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
     private var state: MutableLiveData<State> = MutableLiveData()
 
-    var listNews: LiveData<List<News>> = this.news
+    val listNews = soccerNewsRepository.getAllNews()
+
     val getState: LiveData<State> = this.state
 
     enum class State {
@@ -38,7 +39,12 @@ class NewsViewModel(
      fun findNews() {
 
          state.value = State.DOING
+         getAllNewsUseCase.invoke()
 
+        // val characters = repository.getCharacters()
+
+
+         /*
          getAllNewsUseCase.invoke().getListNews().enqueue(object : Callback<List<News>> {
 
              override fun onResponse(call: Call<List<News>>, response: Response<List<News>>) {
@@ -57,6 +63,8 @@ class NewsViewModel(
              }
 
          })
+
+         */
 
     }
 
