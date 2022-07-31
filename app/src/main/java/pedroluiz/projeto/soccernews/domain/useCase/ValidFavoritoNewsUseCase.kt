@@ -11,7 +11,7 @@ class ValidFavoritoNewsUseCase(
 
         if (news.value != null) {
             for (i in news.value!!?.indices) {
-                news.value?.get(i)?.favorito = if (soccerNewsRepository.getLocalDb().newsDao()
+                news.value?.get(i)?.favorito = if (soccerNewsRepository.getLocalDb()
                         .validFavorito(news.value?.get(i)?.id,true   )>0) true else false
             }
         }

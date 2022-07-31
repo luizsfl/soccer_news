@@ -26,7 +26,7 @@ class FavoritosViewModel(
 
     fun saveNews(news: News){
         CoroutineScope(Dispatchers.IO).launch {
-            soccerNewsRepository.getLocalDb().newsDao().insert(news)
+            soccerNewsRepository.getLocalDb().insert(news)
             saveNewsUseCase(news)
         }
     }
