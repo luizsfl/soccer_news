@@ -14,8 +14,6 @@ class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-
-
         startKoin{
             androidLogger()
             androidContext(this@MyApp)
