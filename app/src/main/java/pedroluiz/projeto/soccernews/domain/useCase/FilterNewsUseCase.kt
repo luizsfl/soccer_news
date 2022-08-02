@@ -1,8 +1,6 @@
 package pedroluiz.projeto.soccernews.domain.useCase
-
 import androidx.lifecycle.MutableLiveData
 import pedroluiz.projeto.soccernews.domain.model.News
-
 class FilterNewsUseCase {
     operator fun invoke(newsApi: MutableLiveData<List<News>>,text:String) : MutableLiveData<List<News>>{
         var newsSearch: MutableLiveData<List<News>> = MutableLiveData<List<News>>()

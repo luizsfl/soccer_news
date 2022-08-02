@@ -8,11 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 open class SoccerNewsRetrofit(private val context: Context?) {
 
-    //region Constantes
     private val REMOTE_API_URL = "https://luizsfl.github.io/soccer-news-api/"
     private val LOCAL_DB_NAME = "soccer-news"
-    //endregion
-    //endregion
 
 
     fun getInstanceRetrofit(): SoccerNewsApi {

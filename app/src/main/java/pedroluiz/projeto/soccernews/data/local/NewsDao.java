@@ -9,9 +9,11 @@ import androidx.room.Query;
 import java.util.List;
 
 import pedroluiz.projeto.soccernews.domain.model.News;
-
 @Dao
 public interface NewsDao {
+
+    @Query("SELECT * FROM News")
+    LiveData<List<News>> AllNews();
 
     @Query("SELECT * FROM News WHERE favorito = :favorite")
     LiveData<List<News>> loadFavoriteNews(Boolean favorite);
