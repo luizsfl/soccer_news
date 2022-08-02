@@ -24,6 +24,10 @@ class NewsViewModel(
         newsApi.value = listNews
     }
 
+    fun atualizaNewsAdapterDb(){
+        listNewsUseCase = getAllNewsUseCase.invoke()
+    }
+
     fun saveNews(news: News) {
           CoroutineScope(Dispatchers.IO).launch {
               saveNewsUseCase(news)

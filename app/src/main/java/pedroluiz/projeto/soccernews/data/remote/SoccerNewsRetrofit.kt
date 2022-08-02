@@ -2,7 +2,7 @@ package pedroluiz.projeto.soccernews.data.remote
 
 import android.content.Context
 import androidx.room.Room
-import pedroluiz.projeto.soccernews.data.local.SoccerNewsDb
+import pedroluiz.projeto.soccernews.data.db.SoccerNewsDb
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

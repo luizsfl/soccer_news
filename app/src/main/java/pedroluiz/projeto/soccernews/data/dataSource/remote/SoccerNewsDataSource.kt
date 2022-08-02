@@ -1,5 +1,6 @@
-package pedroluiz.projeto.soccernews.data.dataSource
+package pedroluiz.projeto.soccernews.data.dataSource.remote
 
+import pedroluiz.projeto.soccernews.data.dataSource.ResponseLiveData
 import pedroluiz.projeto.soccernews.data.remote.SoccerNewsApi
 
 class SoccerNewsDataSource(

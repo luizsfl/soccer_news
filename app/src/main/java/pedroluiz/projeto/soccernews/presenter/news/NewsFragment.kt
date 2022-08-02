@@ -42,6 +42,8 @@ class NewsFragment : Fragment() {
 
         searcViewFilter()
 
+        newsViewModel.atualizaNewsAdapterDb()
+
     }
 
     private fun setupObserv() {

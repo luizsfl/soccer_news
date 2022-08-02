@@ -1,28 +1,30 @@
 package pedroluiz.projeto.soccernews.data.repository
 
 
-import pedroluiz.projeto.soccernews.data.dataSource.SoccerNewsDataSource
-import pedroluiz.projeto.soccernews.data.remote.SoccerNewsRetrofit
+import pedroluiz.projeto.soccernews.data.dataSource.remote.SoccerNewsDataSource
+import pedroluiz.projeto.soccernews.data.dataSource.local.NewsLocalDataSource
+import pedroluiz.projeto.soccernews.domain.model.News
 import pedroluiz.projeto.soccernews.utils.performGetOperation
 
-
 class SoccerNewsRepository(
-    private val newsLocalDataSource: SoccerNewsRetrofit,
+    private val newsLocalDataSource: NewsLocalDataSource,
     private val newsRemoteDataSource: SoccerNewsDataSource
 ){
+    fun loadFavoriteNews(favorito :Boolean) = newsLocalDataSource.loadFavoriteNews(favorito)
 
-     fun getLocalDb() = newsLocalDataSource.getLocalDb().newsDao()
-
+    suspend fun insert(news:News){
+        newsLocalDataSource.setLocalNews(news)
+    }
      fun getAllNews() = performGetOperation(
-          databaseQuery = { newsLocalDataSource.getLocalDb().newsDao().AllNews() },
+          databaseQuery = { newsLocalDataSource.getLocalNewsList() },
           networkCall = { newsRemoteDataSource.getData() },
                saveCallResult = { listNews ->
                     for  (news in listNews){
-                        val favorito = if(this.getLocalDb().validFavorito(news.id,true) >0)
+                        val favorito = if(newsLocalDataSource.validFavorito(news.id,true) >0)
                             true else false
 
                         news.favorito = favorito
-                        this.getLocalDb().insert(news)
+                        newsLocalDataSource.setLocalNews(news)
                     }
           })
 }

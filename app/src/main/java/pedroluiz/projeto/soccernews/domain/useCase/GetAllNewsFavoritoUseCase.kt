@@ -8,6 +8,6 @@ class GetAllNewsFavoritoUseCase(
     private val soccerNewsRepository: SoccerNewsRepository
 ) {
     operator fun invoke(): LiveData<List<News>>  {
-        return soccerNewsRepository.getLocalDb().loadFavoriteNews(true)
+        return soccerNewsRepository.loadFavoriteNews(true)
     }
 }
