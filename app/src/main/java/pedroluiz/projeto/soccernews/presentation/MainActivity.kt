@@ -1,18 +1,15 @@
-package pedroluiz.projeto.soccernews.presenter
+package pedroluiz.projeto.soccernews.presentation
 
 import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import pedroluiz.projeto.soccernews.R
 import pedroluiz.projeto.soccernews.databinding.ActivityMainBinding
-import pedroluiz.projeto.soccernews.presenter.news.NewsViewModel
 
 class MainActivity : AppCompatActivity(){
-    private val newsViewModel: NewsViewModel by viewModel()
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

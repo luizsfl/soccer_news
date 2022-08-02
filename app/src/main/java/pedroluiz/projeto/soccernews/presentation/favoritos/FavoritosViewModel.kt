@@ -1,4 +1,4 @@
-package pedroluiz.projeto.soccernews.presenter.favoritos
+package pedroluiz.projeto.soccernews.presentation.favoritos
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -6,22 +6,21 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pedroluiz.projeto.soccernews.domain.model.News
-import pedroluiz.projeto.soccernews.domain.useCase.GetAllNewsFavoritoUseCase
+import pedroluiz.projeto.soccernews.domain.useCase.GetAllNewsFavoriteUseCase
+import pedroluiz.projeto.soccernews.domain.useCase.NewsInteractorImp
 import pedroluiz.projeto.soccernews.domain.useCase.SaveNewsUseCase
 
 class FavoritosViewModel(
-    private val getAllNewsFavoritoUseCase : GetAllNewsFavoritoUseCase,
-    private val saveNewsUseCase: SaveNewsUseCase
-
+    private val newsInteractorImp: NewsInteractorImp
     ) : ViewModel() {
 
     fun loadFavoritoNews():LiveData<List<News>> {
-        return getAllNewsFavoritoUseCase()
+        return newsInteractorImp.getAllNewsFavorite()
     }
 
     fun saveNews(news: News){
         CoroutineScope(Dispatchers.IO).launch {
-            saveNewsUseCase(news)
+            newsInteractorImp.saveNews(news)
         }
     }
 }

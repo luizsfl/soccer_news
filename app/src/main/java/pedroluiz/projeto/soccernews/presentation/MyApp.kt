@@ -1,4 +1,4 @@
-package pedroluiz.projeto.soccernews.presenter
+package pedroluiz.projeto.soccernews.presentation
 
 import android.app.Application
 import org.koin.android.ext.koin.androidContext

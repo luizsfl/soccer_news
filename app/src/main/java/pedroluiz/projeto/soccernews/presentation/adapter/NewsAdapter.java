@@ -1,4 +1,4 @@
-package pedroluiz.projeto.soccernews.presenter.adapter;
+package pedroluiz.projeto.soccernews.presentation.adapter;
 
 import android.content.Intent;
 import android.net.Uri;

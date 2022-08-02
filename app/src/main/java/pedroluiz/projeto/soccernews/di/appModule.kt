@@ -9,12 +9,13 @@ import pedroluiz.projeto.soccernews.data.dataSource.local.NewsLocalDataSource
 import pedroluiz.projeto.soccernews.data.dataSource.local.NewsLocalDataSourceImp
 import pedroluiz.projeto.soccernews.data.remote.SoccerNewsRetrofit
 import pedroluiz.projeto.soccernews.domain.useCase.*
-import pedroluiz.projeto.soccernews.presenter.favoritos.FavoritosViewModel
-import pedroluiz.projeto.soccernews.presenter.news.NewsViewModel
+import pedroluiz.projeto.soccernews.presentation.favoritos.FavoritosViewModel
+import pedroluiz.projeto.soccernews.presentation.news.NewsViewModel
 
 val remoteModule = module {
     factory {  SoccerNewsRetrofit(androidContext()).getInstanceRetrofit() }
 }
+
 val localModule = module {
     factory {  SoccerNewsRetrofit(androidContext()).getLocalDb().newsDao() }
 }
@@ -28,12 +29,17 @@ val newsModule = module {
     factory { GetAllNewsUseCase(soccerNewsRepository = get())}
     factory<NewsLocalDataSource> { NewsLocalDataSourceImp(newsDao = get())}
 
+    factory { NewsInteractorImp(
+        filterNewsUseCase = get(),
+        getAllNewsFavoriteUseCase = get(),
+        getAllNewsUseCase = get(),
+        saveNewsUseCase = get()
+    )}
 
     viewModel {
         NewsViewModel(
-            saveNewsUseCase = get(),
-            filterNewsUseCase = get(),
-            getAllNewsUseCase = get())
+            newsInteractorImp = get()
+        )
     }
 }
 
@@ -42,13 +48,12 @@ val favoritosModule = module {
     factory { SoccerNewsDataSource(get()) }
     factory { SoccerNewsRetrofit(androidContext()) }
     factory { SoccerNewsRepository(newsLocalDataSource = get(), get()) }
-    factory { GetAllNewsFavoritoUseCase(soccerNewsRepository = get()) }
+    factory { GetAllNewsFavoriteUseCase(soccerNewsRepository = get()) }
     factory { SaveNewsUseCase(soccerNewsRepository = get()) }
 
     viewModel {
         FavoritosViewModel(
-            getAllNewsFavoritoUseCase = get(),
-            saveNewsUseCase = get()
+            newsInteractorImp = get()
         )
     }
 }

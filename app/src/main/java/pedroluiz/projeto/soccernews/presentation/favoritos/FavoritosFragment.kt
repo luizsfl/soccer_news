@@ -1,4 +1,4 @@
-package pedroluiz.projeto.soccernews.presenter.favoritos
+package pedroluiz.projeto.soccernews.presentation.favoritos
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pedroluiz.projeto.soccernews.databinding.FragmentFavoritosBinding
-import pedroluiz.projeto.soccernews.presenter.adapter.NewsAdapter
+import pedroluiz.projeto.soccernews.presentation.adapter.NewsAdapter
 
 class FavoritosFragment : Fragment() {
 

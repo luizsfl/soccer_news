@@ -1,4 +1,4 @@
-package pedroluiz.projeto.soccernews.presenter.news
+package pedroluiz.projeto.soccernews.presentation.news
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +9,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.Dispatchers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pedroluiz.projeto.soccernews.databinding.FragmentNewsBinding
-import pedroluiz.projeto.soccernews.presenter.adapter.NewsAdapter
+import pedroluiz.projeto.soccernews.presentation.adapter.NewsAdapter
 import pedroluiz.projeto.soccernews.utils.Resource
 
 
