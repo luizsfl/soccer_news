@@ -14,6 +14,6 @@ class NewsLocalDataSourceImp(private val newsDao: NewsDao): NewsLocalDataSource 
 
     override fun loadFavoriteNews(favorite: Boolean?):  LiveData<List<News>>  = newsDao.loadFavoriteNews(favorite)
 
-    override fun validFavorito(id: Int?, favorite: Boolean?): Int = newsDao.validFavorito(id,favorite)
+    override fun validFavorite(id: Int?, favorite: Boolean?): Int = newsDao.validFavorite(id,favorite)
 
 }

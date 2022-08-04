@@ -14,7 +14,7 @@ class FavoriteViewModel(
     private val newsInteractorImp: NewsInteractorImp
     ) : ViewModel() {
 
-    fun loadFavoritoNews():LiveData<List<News>> {
+    fun loadFavoriteNews():LiveData<List<News>> {
         return newsInteractorImp.getAllNewsFavorite()
     }
 

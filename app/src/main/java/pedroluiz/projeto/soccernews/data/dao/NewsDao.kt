@@ -13,11 +13,11 @@ interface NewsDao {
     @Query("SELECT * FROM News")
     fun AllNews(): LiveData<List<News>>
 
-    @Query("SELECT * FROM News WHERE favorito = :favorite")
+    @Query("SELECT * FROM News WHERE favorite = :favorite")
     fun loadFavoriteNews(favorite: Boolean?): LiveData<List<News>>
 
-    @Query("SELECT count(*) FROM News WHERE id = :id AND favorito = :favorite")
-    fun validFavorito(id: Int?, favorite: Boolean?): Int
+    @Query("SELECT count(*) FROM News WHERE id = :id AND favorite = :favorite")
+    fun validFavorite(id: Int?, favorite: Boolean?): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(news: News?)

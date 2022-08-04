@@ -64,12 +64,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
         //Favorite
         holder.binding.ivFavorite.setOnClickListener(v->
         {
-            this.news.get(position).setFavorito(!this.news.get(position).getFavorito());
+            this.news.get(position).setFavorite(!this.news.get(position).getFavorite());
             this.favoriteListener.onClic(news.get(position));
             notifyItemChanged(position);
         });
 
-        if (this.news.get(position).getFavorito() == true) {
+        if (this.news.get(position).getFavorite() == true) {
             holder.binding.ivFavorite.setColorFilter(holder.itemView.getContext().getResources().getColor(R.color.red));
         }else{
             holder.binding.ivFavorite.setColorFilter(holder.itemView.getContext().getResources().getColor(R.color.black));

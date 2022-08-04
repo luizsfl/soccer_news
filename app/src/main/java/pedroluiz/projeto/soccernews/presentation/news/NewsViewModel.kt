@@ -23,7 +23,7 @@ class NewsViewModel(
         newsApi.value = listNews
     }
 
-    fun atualizaNewsAdapterDb(){
+    fun updateNewsAdapterDb(){
         listNewsUseCase = newsInteractorImp.getAllNews()
     }
 

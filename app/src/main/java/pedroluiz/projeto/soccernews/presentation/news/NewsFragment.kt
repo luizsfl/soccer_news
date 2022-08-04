@@ -41,7 +41,7 @@ class NewsFragment : Fragment() {
 
         searcViewFilter()
 
-        newsViewModel.atualizaNewsAdapterDb()
+        newsViewModel.updateNewsAdapterDb()
 
     }
 

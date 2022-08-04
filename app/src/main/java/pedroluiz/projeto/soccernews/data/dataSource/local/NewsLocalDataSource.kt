@@ -11,6 +11,6 @@ interface NewsLocalDataSource {
 
     fun loadFavoriteNews(favorite: Boolean?): LiveData<List<News>>
 
-    fun validFavorito(id: Int?, favorite: Boolean?): Int
+    fun validFavorite(id: Int?, favorite: Boolean?): Int
 
 }

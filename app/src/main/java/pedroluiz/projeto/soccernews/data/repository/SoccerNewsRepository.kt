@@ -20,10 +20,10 @@ class SoccerNewsRepository(
           networkCall = { newsRemoteDataSource.getData() },
                saveCallResult = { listNews ->
                     for  (news in listNews){
-                        val favorito = if(newsLocalDataSource.validFavorito(news.id,true) >0)
+                        val favorito = if(newsLocalDataSource.validFavorite(news.id,true) >0)
                             true else false
 
-                        news.favorito = favorito
+                        news.favorite = favorito
                         newsLocalDataSource.setLocalNews(news)
                     }
           })
