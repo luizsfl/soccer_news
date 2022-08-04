@@ -10,7 +10,7 @@ import pedroluiz.projeto.soccernews.domain.useCase.GetAllNewsFavoriteUseCase
 import pedroluiz.projeto.soccernews.domain.useCase.NewsInteractorImp
 import pedroluiz.projeto.soccernews.domain.useCase.SaveNewsUseCase
 
-class FavoritosViewModel(
+class FavoriteViewModel(
     private val newsInteractorImp: NewsInteractorImp
     ) : ViewModel() {
 

@@ -13,7 +13,7 @@ import pedroluiz.projeto.soccernews.presentation.adapter.NewsAdapter
 class FavoritosFragment : Fragment() {
 
     private lateinit var _binding: FragmentFavoritosBinding
-    private val favoritosViewModel: FavoritosViewModel by viewModel()
+    private val favoriteViewModel: FavoriteViewModel by viewModel()
     private val binding get() = _binding
 
     override fun onCreateView(
@@ -34,10 +34,10 @@ class FavoritosFragment : Fragment() {
     }
 
     private fun loadFavoriteNews() {
-        favoritosViewModel.loadFavoritoNews().observe(viewLifecycleOwner) {
+        favoriteViewModel.loadFavoritoNews().observe(viewLifecycleOwner) {
             binding.rcNews.layoutManager = LinearLayoutManager(context)
             binding.rcNews.adapter = NewsAdapter(it){ news ->
-                favoritosViewModel.saveNews(news)
+                favoriteViewModel.saveNews(news)
                 loadFavoriteNews()
             }
         }

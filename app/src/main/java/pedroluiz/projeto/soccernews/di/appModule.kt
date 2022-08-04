@@ -9,7 +9,7 @@ import pedroluiz.projeto.soccernews.data.dataSource.local.NewsLocalDataSource
 import pedroluiz.projeto.soccernews.data.dataSource.local.NewsLocalDataSourceImp
 import pedroluiz.projeto.soccernews.data.remote.SoccerNewsRetrofit
 import pedroluiz.projeto.soccernews.domain.useCase.*
-import pedroluiz.projeto.soccernews.presentation.favoritos.FavoritosViewModel
+import pedroluiz.projeto.soccernews.presentation.favoritos.FavoriteViewModel
 import pedroluiz.projeto.soccernews.presentation.news.NewsViewModel
 
 val remoteModule = module {
@@ -52,7 +52,7 @@ val favoritosModule = module {
     factory { SaveNewsUseCase(soccerNewsRepository = get()) }
 
     viewModel {
-        FavoritosViewModel(
+        FavoriteViewModel(
             newsInteractorImp = get()
         )
     }
