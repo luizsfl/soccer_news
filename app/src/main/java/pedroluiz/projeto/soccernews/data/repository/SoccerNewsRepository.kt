@@ -1,31 +1,54 @@
 package pedroluiz.projeto.soccernews.data.repository
 
-
-import pedroluiz.projeto.soccernews.data.dataSource.remote.SoccerNewsDataSource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import pedroluiz.projeto.soccernews.data.dataSource.remote.SoccerNewsRemoteDataSourceImp
 import pedroluiz.projeto.soccernews.data.dataSource.local.NewsLocalDataSource
-import pedroluiz.projeto.soccernews.domain.model.News
-import pedroluiz.projeto.soccernews.utils.performGetOperation
+import pedroluiz.projeto.soccernews.data.mapper.remoteToDomain
+import pedroluiz.projeto.soccernews.data.model.api.NewsResponse
+import pedroluiz.projeto.soccernews.data.model.entity.News
 
 class SoccerNewsRepository(
     private val newsLocalDataSource: NewsLocalDataSource,
-    private val newsRemoteDataSource: SoccerNewsDataSource
+    private val newsRemoteRemoteDataSourceImp: SoccerNewsRemoteDataSourceImp
 ){
     fun loadFavoriteNews(favorito :Boolean) = newsLocalDataSource.loadFavoriteNews(favorito)
 
-    suspend fun insert(news:News){
+    suspend fun insert(news: News){
         newsLocalDataSource.setLocalNews(news)
     }
-     fun getAllNews() = performGetOperation(
-          databaseQuery = { newsLocalDataSource.getLocalNewsList() },
-          networkCall = { newsRemoteDataSource.getData() },
-               saveCallResult = { listNews ->
-                    for  (news in listNews){
-                        val favorito = if(newsLocalDataSource.validFavorite(news.id,true) >0)
-                            true else false
 
-                        news.favorite = favorito
-                        newsLocalDataSource.setLocalNews(news)
-                    }
-          })
+    fun filterNews(text:String): Flow<List<News>>{
+        return flow {
+            newsLocalDataSource.filterNews(text).collect { newsLocal ->
+                    emit(newsLocal)
+            }
+        }
+    }
+
+    fun getAllNews(): Flow<List<News>>{
+        return flow {
+            newsLocalDataSource.getLocalNewsList().collect { newsLocal ->
+                val newsResponse = newsRemoteRemoteDataSourceImp.getListNews()
+                if (newsLocal.isEmpty()) {
+                    saveLocalData(newsResponse)
+                    emit(newsResponse.remoteToDomain() )
+                } else {
+                    emit(newsLocal)
+                }
+            }
+        }
+    }
+
+    private suspend fun saveLocalData(usersResponse: List<NewsResponse>) {
+        for  (news in usersResponse.remoteToDomain()){
+            val favorito = if(newsLocalDataSource.validFavorite(news.id,true) >0)
+                true else false
+
+            news.favorite = favorito
+            newsLocalDataSource.setLocalNews(news)
+        }
+    }
 }
 

@@ -1,9 +1,7 @@
 package pedroluiz.projeto.soccernews.domain.useCase
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import pedroluiz.projeto.soccernews.domain.model.News
-import pedroluiz.projeto.soccernews.utils.Resource
+import kotlinx.coroutines.flow.Flow
+import pedroluiz.projeto.soccernews.data.model.entity.News
 
 class NewsInteractorImp(
     private val filterNewsUseCase: FilterNewsUseCase,
@@ -12,15 +10,12 @@ class NewsInteractorImp(
     private val saveNewsUseCase: SaveNewsUseCase
 ):NewsInteractor {
 
-    override fun getAllNewsFavorite(): LiveData<List<News>> = getAllNewsFavoriteUseCase()
+    override fun getAllNewsFavorite(): Flow<List<News>> = getAllNewsFavoriteUseCase()
 
-    override fun getAllNews(): LiveData<Resource<List<News>>> = getAllNewsUseCase()
+    override fun getAllNews(): Flow<List<News>> = getAllNewsUseCase()
 
     override suspend fun saveNews(news: News) = saveNewsUseCase(news)
 
-    override fun filterNews(
-        listNews: MutableLiveData<List<News>>,
-        text: String
-    ): MutableLiveData<List<News>> = filterNewsUseCase(listNews,text)
+    override fun filterNews(text: String) = filterNewsUseCase(text)
 
 }

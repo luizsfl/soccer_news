@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import pedroluiz.projeto.soccernews.databinding.FragmentFavoritosBinding
+import pedroluiz.projeto.soccernews.databinding.FragmentFavoriteBinding
 import pedroluiz.projeto.soccernews.presentation.adapter.NewsAdapter
 
-class FavoritosFragment : Fragment() {
+class FavoriteFragment : Fragment() {
 
-    private lateinit var _binding: FragmentFavoritosBinding
+    private lateinit var _binding: FragmentFavoriteBinding
     private val favoriteViewModel: FavoriteViewModel by viewModel()
     private val binding get() = _binding
 
@@ -22,7 +22,7 @@ class FavoritosFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentFavoritosBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         return root
@@ -30,11 +30,15 @@ class FavoritosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupObserv()
+
         loadFavoriteNews()
+
     }
 
-    private fun loadFavoriteNews() {
-        favoriteViewModel.loadFavoriteNews().observe(viewLifecycleOwner) {
+    private fun setupObserv() {
+        favoriteViewModel.newsAdapter.observe(viewLifecycleOwner) {
             binding.rcNews.layoutManager = LinearLayoutManager(context)
             binding.rcNews.adapter = NewsAdapter(it){ news ->
                 favoriteViewModel.saveNews(news)
@@ -42,4 +46,9 @@ class FavoritosFragment : Fragment() {
             }
         }
     }
+
+    private fun loadFavoriteNews() {
+        favoriteViewModel.loadFavoriteNews()
+    }
+
 }

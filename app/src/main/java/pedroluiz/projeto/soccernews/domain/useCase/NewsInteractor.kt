@@ -1,17 +1,15 @@
 package pedroluiz.projeto.soccernews.domain.useCase
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import pedroluiz.projeto.soccernews.domain.model.News
-import pedroluiz.projeto.soccernews.utils.Resource
+import kotlinx.coroutines.flow.Flow
+import pedroluiz.projeto.soccernews.data.model.entity.News
 
 interface NewsInteractor {
 
-    fun filterNews(newsApi: MutableLiveData<List<News>>, text:String) : MutableLiveData<List<News>>
+    fun filterNews(text:String) : Flow<List<News>>
 
-    fun getAllNewsFavorite(): LiveData<List<News>>
+    fun getAllNewsFavorite(): Flow<List<News>>
 
-    fun getAllNews():LiveData<Resource<List<News>>>
+    fun getAllNews():Flow<List<News>>
 
    suspend fun saveNews(news: News)
 

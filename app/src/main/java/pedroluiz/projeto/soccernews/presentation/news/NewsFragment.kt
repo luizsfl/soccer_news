@@ -5,15 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pedroluiz.projeto.soccernews.databinding.FragmentNewsBinding
 import pedroluiz.projeto.soccernews.presentation.adapter.NewsAdapter
-import pedroluiz.projeto.soccernews.utils.Resource
-
 
 class NewsFragment : Fragment() {
 
@@ -39,31 +36,13 @@ class NewsFragment : Fragment() {
 
         setupObserv()
 
-        searcViewFilter()
+        searchNews()
 
-        newsViewModel.updateNewsAdapterDb()
+        newsViewModel.getAllNews()
 
     }
 
     private fun setupObserv() {
-
-        newsViewModel.listNewsUseCase.observe(viewLifecycleOwner, Observer {
-            when (it.status) {
-                Resource.Status.SUCCESS -> {
-                    binding.progressBar.visibility = View.GONE
-                    if (!it.data.isNullOrEmpty()){
-                        newsViewModel.alterNewsAdapter(it.data.map { it })
-                    }
-                }
-                Resource.Status.ERROR ->{
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    binding.progressBar.visibility = View.GONE
-                }
-                Resource.Status.LOADING ->
-                    binding.progressBar.visibility = View.VISIBLE
-            }
-        })
-
         newsViewModel.newsAdapter.observe(viewLifecycleOwner, Observer {
             it.let {
                 binding.rcNews.adapter = NewsAdapter(it) {
@@ -73,7 +52,7 @@ class NewsFragment : Fragment() {
         })
     }
 
-    private fun searcViewFilter(){
+    private fun searchNews() {
         binding.searchNews.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
@@ -83,7 +62,6 @@ class NewsFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 newsViewModel.filterList(newText)
-
                 return false
             }
         })

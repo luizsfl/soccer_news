@@ -4,7 +4,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import pedroluiz.projeto.soccernews.data.repository.SoccerNewsRepository
-import pedroluiz.projeto.soccernews.data.dataSource.remote.SoccerNewsDataSource
+import pedroluiz.projeto.soccernews.data.dataSource.remote.SoccerNewsRemoteDataSourceImp
 import pedroluiz.projeto.soccernews.data.dataSource.local.NewsLocalDataSource
 import pedroluiz.projeto.soccernews.data.dataSource.local.NewsLocalDataSourceImp
 import pedroluiz.projeto.soccernews.data.remote.SoccerNewsRetrofit
@@ -22,10 +22,10 @@ val localModule = module {
 
 val newsModule = module {
 
-    factory { SoccerNewsDataSource(get()) }
-    factory { SoccerNewsRepository(newsLocalDataSource = get(), newsRemoteDataSource = get()) }
+    factory { SoccerNewsRemoteDataSourceImp(get()) }
+    factory { SoccerNewsRepository(newsLocalDataSource = get(),newsRemoteRemoteDataSourceImp = get() ) }
     factory { SaveNewsUseCase(soccerNewsRepository = get())}
-    factory { FilterNewsUseCase()}
+    factory { FilterNewsUseCase(soccerNewsRepository = get())}
     factory { GetAllNewsUseCase(soccerNewsRepository = get())}
     factory<NewsLocalDataSource> { NewsLocalDataSourceImp(newsDao = get())}
 
@@ -45,7 +45,7 @@ val newsModule = module {
 
 val favoritosModule = module {
 
-    factory { SoccerNewsDataSource(get()) }
+    factory { SoccerNewsRemoteDataSourceImp(get()) }
     factory { SoccerNewsRetrofit(androidContext()) }
     factory { SoccerNewsRepository(newsLocalDataSource = get(), get()) }
     factory { GetAllNewsFavoriteUseCase(soccerNewsRepository = get()) }
