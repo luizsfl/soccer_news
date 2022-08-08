@@ -14,7 +14,7 @@ interface NewsDao {
     fun AllNews(): Flow<List<News>>
 
     @Query("SELECT * FROM News WHERE favorite = :favorite")
-    fun loadFavoriteNews(favorite: Boolean?): Flow<List<News>>
+        fun loadFavoriteNews(favorite: Boolean?): Flow<List<News>>
 
     @Query("SELECT count(*) FROM News WHERE id = :id AND favorite = :favorite")
     fun validFavorite(id: Int?, favorite: Boolean?): Int

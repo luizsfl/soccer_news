@@ -1,7 +1,6 @@
 package pedroluiz.projeto.soccernews.data.dataSource.local
 
 import kotlinx.coroutines.flow.Flow
-import org.w3c.dom.Text
 import pedroluiz.projeto.soccernews.data.dao.NewsDao
 import pedroluiz.projeto.soccernews.data.model.entity.News
 

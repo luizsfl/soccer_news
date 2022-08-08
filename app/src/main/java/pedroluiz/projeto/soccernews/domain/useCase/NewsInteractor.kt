@@ -9,7 +9,7 @@ interface NewsInteractor {
 
     fun getAllNewsFavorite(): Flow<List<News>>
 
-    fun getAllNews():Flow<List<News>>
+    fun getAllNews() :Flow<List<News>>
 
    suspend fun saveNews(news: News)
 

@@ -12,7 +12,7 @@ class NewsInteractorImp(
 
     override fun getAllNewsFavorite(): Flow<List<News>> = getAllNewsFavoriteUseCase()
 
-    override fun getAllNews(): Flow<List<News>> = getAllNewsUseCase()
+    override fun getAllNews() =  getAllNewsUseCase()
 
     override suspend fun saveNews(news: News) = saveNewsUseCase(news)
 
