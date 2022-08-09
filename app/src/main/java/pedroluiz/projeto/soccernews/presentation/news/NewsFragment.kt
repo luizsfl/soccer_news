@@ -41,7 +41,9 @@ class NewsFragment : Fragment() {
 
         searchNews()
 
+
         newsViewModel.getAllNews()
+
 
     }
 
@@ -53,8 +55,10 @@ class NewsFragment : Fragment() {
                     binding.progressBar.isVisible = state.isLoading
                 }
                 is ViewState.SetNewsListLoaded -> {
-                        binding.rcNews.adapter = NewsAdapter(state.listNews) {
-                            newsViewModel.saveNews(it)
+                        if (state != null ) {
+                            binding.rcNews.adapter = NewsAdapter(state.listNews) {
+                                newsViewModel.saveNews(it)
+                            }
                         }
                 }
                 is ViewState.LoadFailure -> Log.e("Teste", state.messageError)
