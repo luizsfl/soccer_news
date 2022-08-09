@@ -1,13 +1,16 @@
 package pedroluiz.projeto.soccernews.presentation.favoritos
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pedroluiz.projeto.soccernews.databinding.FragmentFavoriteBinding
+import pedroluiz.projeto.soccernews.presentation.ViewState
 import pedroluiz.projeto.soccernews.presentation.adapter.NewsAdapter
 
 class FavoriteFragment : Fragment() {
@@ -38,11 +41,15 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun setupObserv() {
-        favoriteViewModel.newsAdapter.observe(viewLifecycleOwner) {
-            binding.rcNews.layoutManager = LinearLayoutManager(context)
-            binding.rcNews.adapter = NewsAdapter(it){ news ->
-                favoriteViewModel.saveNews(news)
-                loadFavoriteNews()
+        favoriteViewModel.viewState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is ViewState.SetNewsListLoaded -> {
+                    binding.rcNews.layoutManager = LinearLayoutManager(context)
+                    binding.rcNews.adapter = NewsAdapter(state.listNews) {
+                        favoriteViewModel.saveNews(it)
+                        loadFavoriteNews()
+                    }
+                }
             }
         }
     }
