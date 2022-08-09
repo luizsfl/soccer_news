@@ -12,8 +12,6 @@ class NewsViewModel(
     private val newsInteractorImp: NewsInteractorImp
 ) : ViewModel() {
 
-    var _newsAdapter: MutableLiveData<List<News>> = MutableLiveData<List<News>>()
-    var newsAdapter: LiveData<List<News>> = _newsAdapter
     private val _viewState = MutableLiveData<ViewState>()
     val viewState: LiveData<ViewState> = _viewState
 
@@ -44,9 +42,10 @@ class NewsViewModel(
         if (text.isEmpty()) {
             getAllNews()
         } else {
-            CoroutineScope(Dispatchers.IO).launch {
+            viewModelScope.launch {
                 newsInteractorImp.filterNews(text).collect { listNews ->
-                    _newsAdapter.postValue(listNews)
+                    _viewState.value = ViewState.SetNewsListLoaded(listNews)
+
                 }
             }
         }

@@ -50,7 +50,7 @@ class NewsFragment : Fragment() {
         newsViewModel.viewState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is ViewState.SetLoading -> {
-                //    binding.progressBar.isVisible = state.isLoading
+                    binding.progressBar.isVisible = state.isLoading
                 }
                 is ViewState.SetNewsListLoaded -> {
                         binding.rcNews.adapter = NewsAdapter(state.listNews) {
