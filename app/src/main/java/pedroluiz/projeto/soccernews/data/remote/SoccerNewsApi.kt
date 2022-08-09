@@ -1,10 +1,9 @@
 package pedroluiz.projeto.soccernews.data.remote
 
-import pedroluiz.projeto.soccernews.domain.News
-import retrofit2.Call
+import pedroluiz.projeto.soccernews.data.model.api.NewsResponse
 import retrofit2.http.GET
 
 interface SoccerNewsApi {
-    @get:GET("news.json")
-    val news: Call<List<News>>
+    @GET("news.json")
+    suspend fun getListNews(): List<NewsResponse>
 }

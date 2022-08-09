@@ -1,16 +1,20 @@
-package pedroluiz.projeto.soccernews.presenter.adapter;
+package pedroluiz.projeto.soccernews.presentation.adapter;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import pedroluiz.projeto.soccernews.R;
 import pedroluiz.projeto.soccernews.databinding.NewsItemBinding;
-import pedroluiz.projeto.soccernews.domain.News;
+import pedroluiz.projeto.soccernews.data.model.entity.News;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
 
@@ -20,31 +24,34 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
     }
     public NewsFavoriteListener favoriteListener;
 
-    public void setFilterNews(List<News> filterNews){
-        this.news = filterNews;
-        notifyDataSetChanged();
-
-    }
-
     public NewsAdapter(List<News> news, NewsFavoriteListener favoriteListener) {
-
         this.news = news;
         this.favoriteListener = favoriteListener;
     }
-
-
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         NewsItemBinding binding = NewsItemBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
-        return new ViewHolder(binding);    }
+        return new ViewHolder(binding);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         this.news.get(position);
         holder.binding.tvTitle.setText(this.news.get(position).getTitle());
-        holder.binding.tvDescicao.setText(this.news.get(position).getDescricao());
+        holder.binding.tvDescicao.setText(this.news.get(position).getDescription());
+
+        //Incluir imagem
+        Picasso.get().load(this.news.get(position).getImage()).fit().into(holder.binding.ivNoticia);
+
+        holder.binding.btOpenLink.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(this.news.get(position).getLink()));
+
+            holder.itemView.getContext().startActivity(intent);
+
+        });
 
         //Compartilhamento
         holder.binding.ivShare.setOnClickListener(v->{
@@ -54,17 +61,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
             holder.itemView.getContext().startActivity(Intent.createChooser(intent,"Compartilhe"));
         });
 
-
-
         //Favorite
         holder.binding.ivFavorite.setOnClickListener(v->
         {
-            this.news.get(position).setFavorito(!this.news.get(position).getFavorito());
+            this.news.get(position).setFavorite(!this.news.get(position).getFavorite());
             this.favoriteListener.onClic(news.get(position));
             notifyItemChanged(position);
         });
 
-        if (this.news.get(position).getFavorito() == true) {
+        if (this.news.get(position).getFavorite() == true) {
             holder.binding.ivFavorite.setColorFilter(holder.itemView.getContext().getResources().getColor(R.color.red));
         }else{
             holder.binding.ivFavorite.setColorFilter(holder.itemView.getContext().getResources().getColor(R.color.black));

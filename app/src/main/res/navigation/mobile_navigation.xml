@@ -7,14 +7,14 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="pedroluiz.projeto.soccernews.presenter.news.NewsFragment"
+        android:name="pedroluiz.projeto.soccernews.presentation.news.NewsFragment"
         android:label="@string/title_new"
         tools:layout="@layout/fragment_news" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="pedroluiz.projeto.soccernews.presenter.favoritos.FavoritosFragment"
+        android:name="pedroluiz.projeto.soccernews.presentation.favoritos.FavoriteFragment"
         android:label="@string/title_favoritos"
-        tools:layout="@layout/fragment_favoritos" />
+        tools:layout="@layout/fragment_favorite" />
 
 </navigation>
