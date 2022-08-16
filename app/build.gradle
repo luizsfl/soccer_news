@@ -62,14 +62,20 @@ dependencies {
 
     //coroutines  https://developer.android.com/kotlin/coroutines?gclid=EAIaIQobChMI76KuwLru-AIVFjKRCh00EwASEAAYASAAEgJ_uPD_BwE&gclsrc=aw.ds
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
 
     // Koin Core features
     implementation "io.insert-koin:koin-core:3.2.0"
     testImplementation "io.insert-koin:koin-test:3.2.0"
     implementation "io.insert-koin:koin-android:3.2.0"
     testImplementation "io.insert-koin:koin-test-junit4:3.2.0"
+
+    //Mockk para os testes unitarios
+    testImplementation "io.mockk:mockk:1.12.5"
+    testImplementation "io.mockk:mockk-android:1.12.5"
 }
