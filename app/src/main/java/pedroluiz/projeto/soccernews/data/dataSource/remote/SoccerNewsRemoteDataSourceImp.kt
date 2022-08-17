@@ -7,5 +7,4 @@ class SoccerNewsRemoteDataSourceImp(
 ):SoccerNewsRemoteDataSource {
 
     override suspend fun getListNews() = apiService.getListNews()
-
 }

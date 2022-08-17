@@ -16,8 +16,7 @@ class SoccerNewsRepository(
     private val newsLocalDataSource: NewsLocalDataSource,
     private val newsRemoteRemoteDataSourceImp: SoccerNewsRemoteDataSourceImp,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-
-) {
+    ) {
     fun loadFavoriteNews(favorito: Boolean) = newsLocalDataSource.loadFavoriteNews(favorito)
 
     suspend fun insert(news: News) {

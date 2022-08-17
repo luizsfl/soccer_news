@@ -11,7 +11,6 @@ open class SoccerNewsRetrofit(private val context: Context?) {
     private val REMOTE_API_URL = "https://luizsfl.github.io/soccer-news-api/"
     private val LOCAL_DB_NAME = "soccer-news"
 
-
     fun getInstanceRetrofit(): SoccerNewsApi {
         return   Retrofit.Builder()
             .baseUrl(REMOTE_API_URL)
@@ -24,5 +23,4 @@ open class SoccerNewsRetrofit(private val context: Context?) {
         return  Room.databaseBuilder(context!!, SoccerNewsDb::class.java, LOCAL_DB_NAME)
             .build()
     }
-
 }

@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import pedroluiz.projeto.soccernews.data.model.entity.News
 import pedroluiz.projeto.soccernews.domain.useCase.NewsInteractorImp
 import pedroluiz.projeto.soccernews.presentation.ViewState
@@ -20,17 +21,21 @@ class FavoriteViewModel(
     private val _viewState = MutableLiveData<ViewState>()
     val viewState: LiveData<ViewState> = _viewState
 
+    fun saveNews(news: News) {
+        CoroutineScope(Dispatchers.IO).launch {
+            newsInteractorImp.saveNews(news)
+
+            withContext(Dispatchers.Main) {
+                loadFavoriteNews()
+            }
+        }
+    }
+
     fun loadFavoriteNews() {
         viewModelScope.launch {
             newsInteractorImp.getAllNewsFavorite().collect { listNews ->
                 _viewState.value = ViewState.SetNewsListLoaded(listNews)
             }
-        }
-    }
-
-    fun saveNews(news: News) {
-        CoroutineScope(Dispatchers.IO).launch {
-            newsInteractorImp.saveNews(news)
         }
     }
 }

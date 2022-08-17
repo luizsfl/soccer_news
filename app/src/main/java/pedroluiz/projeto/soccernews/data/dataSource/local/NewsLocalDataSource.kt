@@ -15,5 +15,4 @@ interface NewsLocalDataSource {
     fun filterNews(text: String): Flow<List<News>>
 
     suspend fun validFavorite(id: Int?, favorite: Boolean?): Int
-
 }

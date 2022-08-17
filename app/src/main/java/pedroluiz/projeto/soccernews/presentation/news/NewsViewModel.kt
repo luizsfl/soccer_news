@@ -8,14 +8,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import pedroluiz.projeto.soccernews.data.model.entity.News
+import pedroluiz.projeto.soccernews.domain.useCase.NewsInteractor
 import pedroluiz.projeto.soccernews.domain.useCase.NewsInteractorImp
 import pedroluiz.projeto.soccernews.presentation.ViewState
 
 class NewsViewModel(
-    private val newsInteractorImp: NewsInteractorImp
+    private val newsInteractorImp: NewsInteractor
 ) : ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>()
@@ -24,16 +26,9 @@ class NewsViewModel(
     fun getAllNews() {
         viewModelScope.launch {
             newsInteractorImp.getAllNews()
-                .onStart {
-                    _viewState.value = ViewState.SetLoading(isLoading = true)
-                }
-                .catch {
-                    _viewState.value = ViewState.LoadFailure(it.message.orEmpty())
-                }
-                .collect {
-                    _viewState.value = ViewState.SetLoading(isLoading = false)
-                    _viewState.value = ViewState.SetNewsListLoaded(it)
-                }
+                .onStart { setLoading(isLoading = true) }
+                .catch { setErro(textErro = it.message.orEmpty()) }
+                .collect { setList(listNews = it) }
         }
     }
 
@@ -48,11 +43,21 @@ class NewsViewModel(
             getAllNews()
         } else {
             viewModelScope.launch {
-                newsInteractorImp.filterNews(text).collect { listNews ->
-                    _viewState.value = ViewState.SetNewsListLoaded(listNews)
-                }
+                newsInteractorImp.filterNews(text).collect { setList(listNews = it) }
             }
         }
     }
 
+    private fun setLoading(isLoading: Boolean) {
+        _viewState.value = ViewState.SetLoading(isLoading = isLoading)
+    }
+
+    private fun setErro(textErro: String) {
+        _viewState.value = ViewState.LoadFailure(textErro)
+    }
+
+    private fun setList(listNews: List<News>) {
+        setLoading(false)
+        _viewState.value = ViewState.SetNewsListLoaded(listNews)
+    }
 }
