@@ -15,14 +15,15 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.times
 import pedroluiz.projeto.soccernews.data.model.entity.News
+import pedroluiz.projeto.soccernews.domain.useCase.NewsInteractor
 import pedroluiz.projeto.soccernews.domain.useCase.NewsInteractorImp
 import pedroluiz.projeto.soccernews.presentation.ViewState
 
 class NewsViewModelTest() {
 
     private val testDispatcher =  UnconfinedTestDispatcher()
-    private val newsInteractorImp = mockk<NewsInteractorImp>()
-    private val viewModel = NewsViewModel(newsInteractorImp)
+    private val newsInteractor = mockk<NewsInteractor>()
+    private val viewModel = NewsViewModel(newsInteractor)
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -42,7 +43,7 @@ class NewsViewModelTest() {
         //GIVE
         val mockedList = mockkedNewsList()
 
-        every { newsInteractorImp.getAllNews()} returns flow {emit(mockedList)}
+        every { newsInteractor.getAllNews()} returns flow {emit(mockedList)}
 
         //WHEN
         viewModel.getAllNews()
@@ -52,11 +53,11 @@ class NewsViewModelTest() {
     }
 
     @Test
-    fun `when NewsInteractorImp filterNews return two news, viewState needs to stay the same with two news `() {
+    fun `when newsInteractor filterNews return two news, viewState needs to stay the same with two news `() {
         //GIVE
         val mockedList = mockkedNewsList()
 
-        every { newsInteractorImp.filterNews("Jogadora")} returns flow {emit(mockedList)}
+        every { newsInteractor.filterNews("Jogadora")} returns flow {emit(mockedList)}
 
         //WHEN
         viewModel.filterList("Jogadora")
@@ -66,15 +67,15 @@ class NewsViewModelTest() {
     }
 
     @Test
-    fun `on call function view model getAllNews should call newsInteractorImp once`() {
+    fun `on call function view model getAllNews should call newsInteractor once`() {
         //GIVE
-        every { newsInteractorImp.getAllNews() } returns flow { emit(listOf()) }
+        every { newsInteractor.getAllNews() } returns flow { emit(listOf()) }
 
         //WHEN
         viewModel.getAllNews()
 
         //THEN
-        coVerify(exactly = 1) { newsInteractorImp.getAllNews() }
+        coVerify(exactly = 1) { newsInteractor.getAllNews() }
     }
 
     @Test
@@ -82,13 +83,13 @@ class NewsViewModelTest() {
         //GIVE
         val news = News(1,"Marta","Jogadora","","",false)
 
-        coEvery { newsInteractorImp.saveNews(news) } returns
+        coEvery { newsInteractor.saveNews(news) } returns
 
         //WHEN
         viewModel.saveNews(news)
 
         //THEN
-        coVerify(exactly = 1) { newsInteractorImp.saveNews(news) }
+        coVerify(exactly = 1) { newsInteractor.saveNews(news) }
     }
 
     private fun mockkedNewsList() : List<News>{

@@ -52,10 +52,12 @@ val favoritosModule = module {
     factory { SoccerNewsRepository(newsLocalDataSource = get(), get()) }
     factory { GetAllNewsFavoriteUseCase(soccerNewsRepository = get()) }
     factory { SaveNewsUseCase(soccerNewsRepository = get()) }
+    factory<NewsInteractor> { NewsInteractorImp( get(), get(),get(),get() )}
+
 
     viewModel {
         FavoriteViewModel(
-            newsInteractorImp = get()
+            newsInteractor = get()
         )
     }
 }
