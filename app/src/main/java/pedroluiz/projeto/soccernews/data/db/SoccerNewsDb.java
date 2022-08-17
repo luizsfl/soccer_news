@@ -10,6 +10,5 @@ import pedroluiz.projeto.soccernews.data.model.entity.News;
 public abstract class SoccerNewsDb extends RoomDatabase {
 
     public abstract NewsDao newsDao();
-
 }
 

@@ -23,5 +23,4 @@ class NewsLocalDataSourceImp(private val newsDao: NewsDao): NewsLocalDataSource 
     override suspend fun validFavorite(id: Int?, favorite: Boolean?): Int {
         return newsDao.validFavorite(id,favorite)
     }
-
 }

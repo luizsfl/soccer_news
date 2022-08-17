@@ -19,7 +19,6 @@ class MyApp : Application() {
             androidContext(this@MyApp)
 
             modules(localModule,newsModule,remoteModule,favoritosModule)
-
         }
     }
 

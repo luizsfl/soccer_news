@@ -1,14 +1,13 @@
 package pedroluiz.projeto.soccernews.presentation.favoritos
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import pedroluiz.projeto.soccernews.data.model.entity.News
 import pedroluiz.projeto.soccernews.databinding.FragmentFavoriteBinding
 import pedroluiz.projeto.soccernews.presentation.ViewState
 import pedroluiz.projeto.soccernews.presentation.adapter.NewsAdapter
@@ -26,9 +25,10 @@ class FavoriteFragment : Fragment() {
     ): View {
 
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        return root
+        binding.rcNews.layoutManager = LinearLayoutManager(context)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,19 +37,12 @@ class FavoriteFragment : Fragment() {
         setupObserv()
 
         loadFavoriteNews()
-
     }
 
     private fun setupObserv() {
         favoriteViewModel.viewState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is ViewState.SetNewsListLoaded -> {
-                    binding.rcNews.layoutManager = LinearLayoutManager(context)
-                    binding.rcNews.adapter = NewsAdapter(state.listNews) {
-                        favoriteViewModel.saveNews(it)
-                        loadFavoriteNews()
-                    }
-                }
+                is ViewState.SetNewsListLoaded -> { setNewsListAdapter(state.listNews) }
             }
         }
     }
@@ -58,4 +51,10 @@ class FavoriteFragment : Fragment() {
         favoriteViewModel.loadFavoriteNews()
     }
 
+    private fun setNewsListAdapter(state: List<News>) {
+        binding.rcNews.adapter = NewsAdapter(state) {
+            favoriteViewModel.saveNews(it)
+            loadFavoriteNews()
+        }
+    }
 }

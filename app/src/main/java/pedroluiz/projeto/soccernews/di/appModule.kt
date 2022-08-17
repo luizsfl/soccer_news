@@ -28,6 +28,8 @@ val newsModule = module {
     factory { FilterNewsUseCase(soccerNewsRepository = get())}
     factory { GetAllNewsUseCase(soccerNewsRepository = get())}
     factory<NewsLocalDataSource> { NewsLocalDataSourceImp(newsDao = get())}
+    factory<NewsInteractor> { NewsInteractorImp( get(), get(),get(),get() )}
+
 
     factory { NewsInteractorImp(
         filterNewsUseCase = get(),

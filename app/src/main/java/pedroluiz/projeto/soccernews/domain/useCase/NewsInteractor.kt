@@ -12,5 +12,4 @@ interface NewsInteractor {
     fun getAllNews() :Flow<List<News>>
 
    suspend fun saveNews(news: News)
-
 }
