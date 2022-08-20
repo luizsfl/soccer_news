@@ -8,16 +8,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import pedroluiz.projeto.soccernews.data.model.entity.News
 import pedroluiz.projeto.soccernews.domain.useCase.NewsInteractor
-import pedroluiz.projeto.soccernews.domain.useCase.NewsInteractorImp
 import pedroluiz.projeto.soccernews.presentation.ViewState
 
 class NewsViewModel(
-    private val newsInteractorImp: NewsInteractor
+    private val newsInteractor: NewsInteractor
 ) : ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>()
@@ -25,7 +23,7 @@ class NewsViewModel(
 
     fun getAllNews() {
         viewModelScope.launch {
-            newsInteractorImp.getAllNews()
+            newsInteractor.getAllNews()
                 .onStart { setLoading(isLoading = true) }
                 .catch { setErro(textErro = it.message.orEmpty()) }
                 .collect { setList(listNews = it) }
@@ -34,7 +32,7 @@ class NewsViewModel(
 
     fun saveNews(news: News) {
         CoroutineScope(Dispatchers.IO).launch {
-            newsInteractorImp.saveNews(news)
+            newsInteractor.saveNews(news)
         }
     }
 
@@ -43,7 +41,7 @@ class NewsViewModel(
             getAllNews()
         } else {
             viewModelScope.launch {
-                newsInteractorImp.filterNews(text).collect { setList(listNews = it) }
+                newsInteractor.filterNews(text).collect { setList(listNews = it) }
             }
         }
     }

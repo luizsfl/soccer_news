@@ -40,7 +40,7 @@ val newsModule = module {
 
     viewModel {
         NewsViewModel(
-            newsInteractorImp = get()
+            newsInteractor = get()
         )
     }
 }
