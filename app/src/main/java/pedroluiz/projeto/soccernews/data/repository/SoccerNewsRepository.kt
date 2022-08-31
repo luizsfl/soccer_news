@@ -26,7 +26,6 @@ class SoccerNewsRepository(
         }
     }
 
-
     fun filterNews(text: String): Flow<List<News>> {
         return flow {
             newsLocalDataSource.filterNews(text).collect { newsLocal ->
