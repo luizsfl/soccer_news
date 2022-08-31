@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 import pedroluiz.projeto.soccernews.data.dataSource.local.NewsLocalDataSource
 import pedroluiz.projeto.soccernews.data.dataSource.remote.SoccerNewsRemoteDataSourceImp
 import pedroluiz.projeto.soccernews.data.mapper.remoteToDomain
@@ -19,9 +20,12 @@ class SoccerNewsRepository(
     ) {
     fun loadFavoriteNews(favorito: Boolean) = newsLocalDataSource.loadFavoriteNews(favorito)
 
-    suspend fun insert(news: News) {
-        newsLocalDataSource.setLocalNews(news)
+    suspend fun insert(news: News){
+        withContext(dispatcher){
+            newsLocalDataSource.setLocalNews(news)
+        }
     }
+
 
     fun filterNews(text: String): Flow<List<News>> {
         return flow {
@@ -33,11 +37,12 @@ class SoccerNewsRepository(
 
     fun getAllNews(): Flow<List<News>> {
         return flow {
+            val newsResponse = newsRemoteRemoteDataSourceImp.getListNews()
+            saveLocalData(newsResponse)
+
             newsLocalDataSource.getLocalNewsList()
             .collect { newsLocal ->
                 if (newsLocal.isEmpty()) {
-                    val newsResponse = newsRemoteRemoteDataSourceImp.getListNews()
-                    saveLocalData(newsResponse)
                     emit(newsResponse.remoteToDomain())
                 } else {
                     emit(newsLocal)

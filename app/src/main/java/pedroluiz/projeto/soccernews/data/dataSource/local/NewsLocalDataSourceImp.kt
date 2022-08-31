@@ -8,8 +8,8 @@ class NewsLocalDataSourceImp(private val newsDao: NewsDao): NewsLocalDataSource 
 
     override fun getLocalNewsList(): Flow<List<News>> = newsDao.AllNews()
 
-    override suspend fun setLocalNews(news: News){
-        newsDao.insert(news)
+    override suspend fun setLocalNews(news: News) {
+        return newsDao.insert(news)
     }
 
     override fun loadFavoriteNews(favorite: Boolean?):Flow<List<News>>{
