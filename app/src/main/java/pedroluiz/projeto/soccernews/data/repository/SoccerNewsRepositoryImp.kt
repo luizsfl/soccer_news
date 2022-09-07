@@ -8,25 +8,27 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import pedroluiz.projeto.soccernews.data.dataSource.local.NewsLocalDataSource
-import pedroluiz.projeto.soccernews.data.dataSource.remote.SoccerNewsRemoteDataSourceImp
+import pedroluiz.projeto.soccernews.data.dataSource.remote.SoccerNewsRemoteDataSource
 import pedroluiz.projeto.soccernews.data.mapper.remoteToDomain
 import pedroluiz.projeto.soccernews.data.model.api.NewsResponse
 import pedroluiz.projeto.soccernews.data.model.entity.News
+import pedroluiz.projeto.soccernews.domain.repository.SoccerNewsRepository
 
-class SoccerNewsRepository(
+class SoccerNewsRepositoryImp(
     private val newsLocalDataSource: NewsLocalDataSource,
-    private val newsRemoteRemoteDataSourceImp: SoccerNewsRemoteDataSourceImp,
+    private val SoccerNewsRemoteDataSource: SoccerNewsRemoteDataSource,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-    ) {
-    fun loadFavouriteNews(favourite: Boolean) = newsLocalDataSource.loadFavouriteNews(favourite)
+    ): SoccerNewsRepository {
 
-    suspend fun insert(news: News){
+    override fun loadFavouriteNews(favourite: Boolean) = newsLocalDataSource.loadFavouriteNews(favourite)
+
+    override suspend fun insert(news: News){
         withContext(dispatcher){
             newsLocalDataSource.setLocalNews(news)
         }
     }
 
-    fun filterNews(text: String): Flow<List<News>> {
+    override fun filterNews(text: String): Flow<List<News>> {
         return flow {
             newsLocalDataSource.filterNews(text).collect { newsLocal ->
                 emit(newsLocal)
@@ -34,9 +36,9 @@ class SoccerNewsRepository(
         }
     }
 
-    fun getAllNews(): Flow<List<News>> {
+    override fun getAllNews(): Flow<List<News>> {
         return flow {
-            val newsResponse = newsRemoteRemoteDataSourceImp.getListNews()
+            val newsResponse = SoccerNewsRemoteDataSource.getListNews()
             saveLocalData(newsResponse)
 
             newsLocalDataSource.getLocalNewsList()
@@ -50,7 +52,7 @@ class SoccerNewsRepository(
         }.flowOn(dispatcher)
     }
 
-    private suspend fun saveLocalData(usersResponse: List<NewsResponse>) {
+    override suspend fun saveLocalData(usersResponse: List<NewsResponse>) {
         for (news in usersResponse.remoteToDomain()) {
             val favourite = if (newsLocalDataSource.validFavourite(news.id, true) > 0)
                 true else false

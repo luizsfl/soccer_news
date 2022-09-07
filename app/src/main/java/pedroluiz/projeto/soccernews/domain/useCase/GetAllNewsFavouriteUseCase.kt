@@ -2,7 +2,7 @@ package pedroluiz.projeto.soccernews.domain.useCase
 
 import kotlinx.coroutines.flow.Flow
 import pedroluiz.projeto.soccernews.data.model.entity.News
-import pedroluiz.projeto.soccernews.data.repository.SoccerNewsRepository
+import pedroluiz.projeto.soccernews.domain.repository.SoccerNewsRepository
 
 class GetAllNewsFavouriteUseCase(
     private val soccerNewsRepository: SoccerNewsRepository
