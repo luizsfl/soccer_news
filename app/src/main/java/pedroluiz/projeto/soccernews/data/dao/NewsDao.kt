@@ -13,11 +13,11 @@ interface NewsDao {
     @Query("SELECT * FROM News")
     fun AllNews(): Flow<List<News>>
 
-    @Query("SELECT * FROM News WHERE favorite = :favorite")
-    fun loadFavoriteNews(favorite: Boolean?): Flow<List<News>>
+    @Query("SELECT * FROM News WHERE favourite = :favourite")
+    fun loadFavouriteNews(favourite: Boolean?): Flow<List<News>>
 
-    @Query("SELECT count(*) FROM News WHERE id = :id AND favorite = :favorite")
-    fun validFavorite(id: Int?, favorite: Boolean?): Int
+    @Query("SELECT count(*) FROM News WHERE id = :id AND favourite = :favourite")
+    fun validFavourite(id: Int?, favourite: Boolean?): Int
 
     @Query("SELECT * FROM News " +
             "WHERE title like '%'|| :text || '%' or description like '%'|| :text || '%'")

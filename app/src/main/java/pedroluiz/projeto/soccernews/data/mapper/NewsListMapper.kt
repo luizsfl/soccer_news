@@ -10,6 +10,6 @@ fun List<NewsResponse>.remoteToDomain() = map {
         description = it.description,
         image = it.image,
         link = it.link,
-        favorite = false,
+        favourite = false,
     )
 }

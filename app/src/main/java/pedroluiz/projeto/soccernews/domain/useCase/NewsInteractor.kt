@@ -7,7 +7,7 @@ interface NewsInteractor {
 
     fun filterNews(text:String) : Flow<List<News>>
 
-    fun getAllNewsFavorite(): Flow<List<News>>
+    fun getAllNewsFavourite(): Flow<List<News>>
 
     fun getAllNews() :Flow<List<News>>
 

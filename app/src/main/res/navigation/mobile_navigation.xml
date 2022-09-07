@@ -13,8 +13,8 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="pedroluiz.projeto.soccernews.presentation.favoritos.FavoriteFragment"
-        android:label="@string/title_favoritos"
-        tools:layout="@layout/fragment_favorite" />
+        android:name="pedroluiz.projeto.soccernews.presentation.favourite.FavouriteFragment"
+        android:label="@string/title_favourite"
+        tools:layout="@layout/fragment_favourite" />
 
 </navigation>

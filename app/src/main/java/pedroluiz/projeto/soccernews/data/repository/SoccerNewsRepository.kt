@@ -18,7 +18,7 @@ class SoccerNewsRepository(
     private val newsRemoteRemoteDataSourceImp: SoccerNewsRemoteDataSourceImp,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) {
-    fun loadFavoriteNews(favorito: Boolean) = newsLocalDataSource.loadFavoriteNews(favorito)
+    fun loadFavouriteNews(favourite: Boolean) = newsLocalDataSource.loadFavouriteNews(favourite)
 
     suspend fun insert(news: News){
         withContext(dispatcher){
@@ -52,10 +52,10 @@ class SoccerNewsRepository(
 
     private suspend fun saveLocalData(usersResponse: List<NewsResponse>) {
         for (news in usersResponse.remoteToDomain()) {
-            val favorito = if (newsLocalDataSource.validFavorite(news.id, true) > 0)
+            val favourite = if (newsLocalDataSource.validFavourite(news.id, true) > 0)
                 true else false
 
-            news.favorite = favorito
+            news.favourite = favourite
             newsLocalDataSource.setLocalNews(news)
         }
     }

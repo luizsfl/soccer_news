@@ -1,17 +1,16 @@
 package pedroluiz.projeto.soccernews.domain.useCase
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import pedroluiz.projeto.soccernews.data.model.entity.News
 
 class NewsInteractorImp(
     private val filterNewsUseCase: FilterNewsUseCase,
-    private val getAllNewsFavoriteUseCase: GetAllNewsFavoriteUseCase,
+    private val getAllNewsFavouriteUseCase: GetAllNewsFavouriteUseCase,
     private val getAllNewsUseCase: GetAllNewsUseCase,
     private val saveNewsUseCase: SaveNewsUseCase
 ) : NewsInteractor {
 
-    override fun getAllNewsFavorite(): Flow<List<News>> = getAllNewsFavoriteUseCase()
+    override fun getAllNewsFavourite(): Flow<List<News>> = getAllNewsFavouriteUseCase()
 
     override fun getAllNews() = getAllNewsUseCase()
 

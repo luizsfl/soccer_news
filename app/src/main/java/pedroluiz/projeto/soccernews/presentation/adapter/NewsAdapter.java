@@ -22,11 +22,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
     public List<News> getNews() {
         return news;
     }
-    public NewsFavoriteListener favoriteListener;
+    public NewsFavouriteListener favouriteListener;
 
-    public NewsAdapter(List<News> news, NewsFavoriteListener favoriteListener) {
+    public NewsAdapter(List<News> news, NewsFavouriteListener favouriteListener) {
         this.news = news;
-        this.favoriteListener = favoriteListener;
+        this.favouriteListener = favouriteListener;
     }
 
     @NonNull
@@ -40,10 +40,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         this.news.get(position);
         holder.binding.tvTitle.setText(this.news.get(position).getTitle());
-        holder.binding.tvDescicao.setText(this.news.get(position).getDescription());
+        holder.binding.tvDescription.setText(this.news.get(position).getDescription());
 
         //Incluir imagem
-        Picasso.get().load(this.news.get(position).getImage()).fit().into(holder.binding.ivNoticia);
+        Picasso.get().load(this.news.get(position).getImage()).fit().into(holder.binding.ivNews);
 
         holder.binding.btOpenLink.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -62,17 +62,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
         });
 
         //Favorite
-        holder.binding.ivFavorite.setOnClickListener(v->
+        holder.binding.ivFavourite.setOnClickListener(v->
         {
-            this.news.get(position).setFavorite(!this.news.get(position).getFavorite());
-            this.favoriteListener.onClic(news.get(position));
+            this.news.get(position).setFavourite(!this.news.get(position).getFavourite());
+            this.favouriteListener.onClic(news.get(position));
             notifyItemChanged(position);
         });
 
-        if (this.news.get(position).getFavorite() == true) {
-            holder.binding.ivFavorite.setColorFilter(holder.itemView.getContext().getResources().getColor(R.color.red));
+        if (this.news.get(position).getFavourite() == true) {
+            holder.binding.ivFavourite.setColorFilter(holder.itemView.getContext().getResources().getColor(R.color.red));
         }else{
-            holder.binding.ivFavorite.setColorFilter(holder.itemView.getContext().getResources().getColor(R.color.black));
+            holder.binding.ivFavourite.setColorFilter(holder.itemView.getContext().getResources().getColor(R.color.black));
         }
     }
 
@@ -89,7 +89,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
         }
     }
 
-    public interface NewsFavoriteListener{
+    public interface NewsFavouriteListener {
         void onClic(News news);
     }
 }

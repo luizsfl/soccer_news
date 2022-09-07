@@ -16,13 +16,13 @@ import org.junit.Rule
 import org.junit.Test
 import pedroluiz.projeto.soccernews.data.model.entity.News
 import pedroluiz.projeto.soccernews.domain.useCase.NewsInteractor
-import pedroluiz.projeto.soccernews.presentation.favoritos.FavoriteViewModel
+import pedroluiz.projeto.soccernews.presentation.favourite.FavouriteViewModel
 
-class FavoriteViewModelTest {
+class FavouriteViewModelTest {
 
     private val testDispatcher = UnconfinedTestDispatcher()
     private val newsInteractor = mockk<NewsInteractor>()
-    private val viewModel = FavoriteViewModel(newsInteractor)
+    private val viewModel = FavouriteViewModel(newsInteractor)
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -40,13 +40,13 @@ class FavoriteViewModelTest {
     @Test
     fun `on call function view model loadFavoriteNews should call newsInteractor once`() {
         //GIVE
-        every { newsInteractor.getAllNewsFavorite() } returns flow { emit(listOf()) }
+        every { newsInteractor.getAllNewsFavourite() } returns flow { emit(listOf()) }
 
         //WHEN
-        viewModel.loadFavoriteNews()
+        viewModel.loadFavouriteNews()
 
         //THEN
-        coVerify(exactly = 1) { newsInteractor.getAllNewsFavorite() }
+        coVerify(exactly = 1) { newsInteractor.getAllNewsFavourite() }
     }
 
     @Test

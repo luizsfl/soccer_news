@@ -1,4 +1,4 @@
-package pedroluiz.projeto.soccernews.presentation.favoritos
+package pedroluiz.projeto.soccernews.presentation.favourite
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,7 @@ import pedroluiz.projeto.soccernews.data.model.entity.News
 import pedroluiz.projeto.soccernews.domain.useCase.NewsInteractor
 import pedroluiz.projeto.soccernews.presentation.ViewState
 
-class FavoriteViewModel(
+class FavouriteViewModel(
     private val newsInteractor: NewsInteractor
 ) : ViewModel() {
 
@@ -20,13 +20,13 @@ class FavoriteViewModel(
     fun saveNews(news: News) {
         viewModelScope.launch {
             newsInteractor.saveNews(news)
-            loadFavoriteNews()
+            loadFavouriteNews()
         }
     }
 
-    fun loadFavoriteNews() {
+    fun loadFavouriteNews() {
         viewModelScope.launch {
-            newsInteractor.getAllNewsFavorite().collect { listNews ->
+            newsInteractor.getAllNewsFavourite().collect { listNews ->
                 _viewState.value = ViewState.SetNewsListLoaded(listNews)
             }
         }

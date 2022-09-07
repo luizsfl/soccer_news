@@ -11,5 +11,5 @@ data class News (
     val description:String,
     val image: String,
     val link:String,
-    var favorite : Boolean
+    var favourite : Boolean
 )

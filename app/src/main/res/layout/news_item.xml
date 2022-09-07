@@ -12,14 +12,14 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/ivNoticia"
+            android:id="@+id/iv_news"
             android:layout_width="match_parent"
             android:layout_height="194dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars"
-            android:contentDescription="@string/txt_imagem_noticia"
+            android:contentDescription="@string/txt_imagem_news"
             android:src="@color/black"
             />
 
@@ -33,11 +33,11 @@
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivNoticia"
+            app:layout_constraintTop_toBottomOf="@+id/iv_news"
             tools:text="Titulo da noticia" />
 
         <TextView
-            android:id="@+id/tvDescicao"
+            android:id="@+id/tv_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
@@ -56,13 +56,13 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
-            android:text="@string/txt_abrir_link"
+            android:text="@string/txt_open_link"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescicao" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_description" />
 
         <ImageView
-            android:id="@+id/ivFavorite"
+            android:id="@+id/iv_favourite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="132dp"
@@ -72,8 +72,8 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/btOpenLink"
             app:layout_constraintTop_toTopOf="@+id/btOpenLink"
-            app:srcCompat="@drawable/ic_favorite"
-            android:contentDescription="@string/txt_imagem_favorito"
+            app:srcCompat="@drawable/ic_favourite"
+            android:contentDescription="@string/txt_imagem_favourite"
             android:clickable="true"
             android:focusable="true"
             />
@@ -83,11 +83,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/default_margin"
-            app:layout_constraintBottom_toBottomOf="@+id/ivFavorite"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_favourite"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ivFavorite"
+            app:layout_constraintTop_toTopOf="@+id/iv_favourite"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_share"
-            android:contentDescription="@string/txt_imagem_de_compartilhar" />
+            android:contentDescription="@string/txt_image_share" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">soccer news</string>
     <string name="title_new">News</string>
-    <string name="title_favoritos">Favoritos</string>
-    <string name="txt_abrir_link">Abrir link</string>
-    <string name="txt_imagem_noticia">Imagem de noticia</string>
-    <string name="txt_imagem_favorito">Imagem de favorito</string>
-    <string name="txt_imagem_de_compartilhar">Imagem de compartilhar</string>
+    <string name="title_favourite">Favoritos</string>
+    <string name="txt_open_link">Abrir link</string>
+    <string name="txt_imagem_news">Imagem de noticia</string>
+    <string name="txt_imagem_favourite">Imagem de favorito</string>
+    <string name="txt_image_share">Imagem de compartilhar</string>
 </resources>
