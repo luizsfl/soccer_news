@@ -6,7 +6,5 @@ import pedroluiz.projeto.soccernews.data.model.entity.News
 class SaveNewsUseCase(
     private val soccerNewsRepository: SoccerNewsRepository,
 ) {
-    suspend operator fun invoke(news: News) {
-        soccerNewsRepository.insert(news)
-    }
+    suspend operator fun invoke(news: News) = soccerNewsRepository.insert(news)
 }

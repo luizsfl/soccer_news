@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.withContext
 import pedroluiz.projeto.soccernews.data.dataSource.local.NewsLocalDataSource
 import pedroluiz.projeto.soccernews.data.dataSource.remote.SoccerNewsRemoteDataSource
 import pedroluiz.projeto.soccernews.data.mapper.remoteToDomain
@@ -22,11 +21,7 @@ class SoccerNewsRepositoryImp(
 
     override fun loadFavouriteNews(favourite: Boolean) = newsLocalDataSource.loadFavouriteNews(favourite)
 
-    override suspend fun insert(news: News){
-        withContext(dispatcher){
-            newsLocalDataSource.setLocalNews(news)
-        }
-    }
+    override suspend fun insert(news: News) = newsLocalDataSource.setLocalNews(news)
 
     override fun filterNews(text: String): Flow<List<News>> {
         return flow {

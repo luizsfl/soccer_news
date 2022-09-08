@@ -24,5 +24,5 @@ interface NewsDao {
     fun filterNews(text: String): Flow<List<News>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(news: News?)
+    suspend fun insert(news: News?)
 }
